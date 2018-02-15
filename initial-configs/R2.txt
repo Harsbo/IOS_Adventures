@@ -1,0 +1,84 @@
+
+
+vrf definition Level1
+ address-family ipv4
+ exit-address-family
+!
+vrf definition Level2
+ address-family ipv4
+ exit-address-family
+!
+vrf definition Level3
+ address-family ipv4
+ exit-address-family
+!
+vrf definition Level4
+ address-family ipv4
+ exit-address-family
+!
+vrf definition Level5
+ address-family ipv6
+ exit-address-family
+!
+!
+ip host R1 172.22.0.1
+ip host R2 10.3.23.2
+ip host R3 10.3.34.3
+ip host R4 10.3.45.4
+ip host Castle3 100.3.0.20
+!
+!
+interface GigabitEthernet1.112
+ encapsulation dot1Q 112
+ vrf forwarding Level1
+ ip address 10.1.12.2 255.255.255.0
+!
+interface GigabitEthernet1.212
+ encapsulation dot1Q 212
+ vrf forwarding Level2
+ ip address 10.2.12.2 255.255.255.0
+!
+interface GigabitEthernet1.312
+ encapsulation dot1Q 312
+ vrf forwarding Level3
+ ip address 10.3.12.2 255.255.255.0
+!
+interface GigabitEthernet1.412
+ encapsulation dot1Q 412
+ ip address 10.4.12.2 255.255.255.0
+!
+interface GigabitEthernet1.512
+ encapsulation dot1Q 512
+ vrf forwarding Level5
+ ipv6 address 10:5:12::2/120
+!
+interface GigabitEthernet1.123
+ encapsulation dot1Q 123
+ vrf forwarding Level1
+ ip address 10.1.23.2 255.255.255.0
+!
+interface GigabitEthernet1.223
+ encapsulation dot1Q 223
+ vrf forwarding Level2
+ ip address 10.2.23.2 255.255.255.0
+!
+interface GigabitEthernet1.323
+ encapsulation dot1Q 323
+ vrf forwarding Level3
+ ip address 10.3.23.2 255.255.255.0
+!
+interface GigabitEthernet1.423
+ encapsulation dot1Q 423
+ ip address 10.4.23.2 255.255.255.0
+!
+interface GigabitEthernet1.523
+ encapsulation dot1Q 523
+ vrf forwarding Level5
+ ipv6 address 10:5:23::2/120
+!
+interface Loopback 536
+ vrf forwarding Level5
+!
+!
+!
+end

@@ -1,0 +1,17 @@
+
+
+hostname R6
+!
+ip host castle1 3001 100.1.0.20
+ip host castle2 3001 100.2.0.20
+ip host castle3 3001 100.3.0.20
+ip host castle4 3001 100.4.0.20
+ip host castle5 3001 100.5.0.20
+!
+!
+interface GigabitEthernet1.9
+ encapsulation dot1Q 9
+ ip address 9.0.0.1 255.255.255.254
+!
+!
+end
