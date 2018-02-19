@@ -1,5 +1,5 @@
 # IOS Adventures
-One day, the IOS Kingdom was invaded by the Junipers, a tribe of network devices capable of using powerful dark magic. Their magic was used to transform all the IOS routers into simple hubs and media converters, thus spelling the kingdom's downfall. Only the daughter of the IOS King, Princess Cattools, can undo the spell and restore her routers back to glory, but she is being held captive by King Junos himself. Captain Catalyst hears of the princess's plight, and sets out on a quest to topple the Juniper Tribe and save the once-peaceful kingdom.
+One day, the IOS Kingdom was invaded by the Junipers, a tribe of network devices capable of using powerful dark magic. Their magic was used to transform all the IOS routers into simple hubs and media converters, thus spelling the kingdom's downfall. Only the daughter of the IOS King, Princess Cattools, can undo the spell and restore her routers back to glory, but she is being held captive by King Junos himself. Captain Catalyst hears of the princess's plight, and sets out on a quest to topple the Juniper Tribe and save the once-restful kingdom.
 
 ## Preparations
 You need six CSR:s and one switch connected according to the topology. The switch needs to forward 802.1q tagged frames for all vlans on all interfaces, other than that it is not involved in the gameplay. 
@@ -15,9 +15,9 @@ R5#copy http://<your-file-server>/initial-configs/R5.txt running-config
 ```
 
 ## Gameplay
-You play the role of Captain Catalyst (R6) and you control R1 - R4. You start at the bottom (see below) and need to configure your way through all of the levels. Each level is a seperate VRF instance on R1 - R4. The R5 router is used to serve as the castles. Each castle has a virtual telnet chamber at 100.X.0.20/32 port 3001 where X is the level number. A level is completed when Captain Catalyst have entered the telnet chamber and searched for the princess. You need to configure routing on each level according to the level requirements and then give the castles the prefix for Captain Catalyst (9.0.0.0/31) also according to the level requirements. This is the only way to make the castle give back the chamber prefixes and thereby achieving connectivity to the chamber. Each chamber is protected by a username and a password. The username is LevelX (where X is the level number) and the password will be attached to the chamber prefix that you get from the castle. Note the passwords should not be entered in dotted-decimal format.
+You play the role of Captain Catalyst (R6) and you control R1 - R4. You start at the bottom (see below) and need to configure your way through all of the levels. The R5 router is used to serve as the castles and each castle has a virtual telnet chamber at 100.X.0.20/32 port 3001 where X is the level number. A level is completed when Captain Catalyst has entered the telnet chamber and searched for the princess. You need to configure routing on each level (VRF instance on R1 - R4) according to the level requirements and then give the castles the prefix for Captain Catalyst (9.0.0.0/31) also according to the level requirements. This is the only way to make the castle give back the chamber prefixes and thereby achieving connectivity to the chamber. Each chamber is protected by a username and a password. The username is LevelX (X is the level number) and the password will be attached to the chamber prefix that you get from the castle. No password should be entered in dotted-decimal format.
 
-Once you have successfully searched through a chamber you will open the castles pathway (vlan 101-104) to the next level thus making your progress a little further. To get the Captain Catalyst prefix between levels you run eBGP between the VRF on R1 and the castles over the directly connected links, the level routers are in AS 1337 and all the castles are in AS 400. You can go into a castle chamber as many times as you want to but when you establish peering from the above level you will lose access to that chamber. But don't worry because if you succeeded with that it means you have unlocked the next level and there is another chamber for you to visit. There are many pitfalls, only the brave can prevail!
+Once you have successfully searched through a chamber you will open the castle backdoor (vlan 101-104) to the next level thus making your progress a little further. To get the Captain Catalyst prefix between levels you run eBGP between the Level VRF on R1 and the castles over the directly connected links, the level routers are in AS 1337 and all the castles are in AS 400. You can go into a castle chamber as many times as you want to but when you establish peering from the above level you will lose access to that chamber. But don't worry because if you succeeded with that it means you have unlocked the next level and there is another chamber for you to visit. There are many pitfalls, only the brave can prevail!
 
 ![IOS Kingdom](IOS-Kingdom.PNG)
 
@@ -63,7 +63,7 @@ R6#telnet castle2
 ```
 Note you cannot telnet the chamber through the main gate, your telnet session must enter the castle some other way.
 
-## Level 3 - Djikstras Island
+## Level 3 - Djikstra's Island
 
 Level requirements:
 - Level IGP is OSPF, use process id 3.
@@ -89,11 +89,11 @@ R6#telnet castle3
 - On router R1 - R4 create interface Loopback 10 with IP 10.0.0.X/32 (X = router number) and advertise them in IGP.
 - Only these loopback prefixes should be installed in RIB from IS-IS.
 - The castle is blocking all IP packets from the level for data plane but there is an opening for BGP. Use it to setup a VPN for Captain Catalyst. 
-- Use loopbacks for iBGP peering and the directly connected interfaces for eBGP peering.
+- Use directly connected links for any eBGP peerings.
 - All eBGP peerings on this stage must be authenticated with the password "next-hop-unchanged"
 - Only necessary address families should be negotiated with the castle.
 - Don't advertise any more NLRI than needed from the level to the castle.
-- Level 4 must not be any different from an regular IP routed level when it comes to handling of TTL for data plane.
+- This level must not be any different from an regular IP routed level when it comes to handling of TTL for data plane.
 
 When you have met all the requirements it's time to enter the chamber of the Castle:
 ```
@@ -114,7 +114,7 @@ When you have met all the requirements it's time to enter the chamber of the Cas
 R6#telnet castle5
 ```
 
-## Caveats
+## Final words
 This was developed and tested on IOS XE Software Version 03.17.00.S, IOS Software Version 15.6(1)S, Embedded Event Manager Version 4.00. Using other versions may not work as intended and can therefore possibly ruin the game experience. Testing of other setups and feedback of the game is much appreciated.
 
 If you're having trouble getting your prefixes to or through the castles make sure that you follow the level requirements completely but also think about any technical limitations that you can hit with this kind of setup. With that said good luck, it's not an easy game!
