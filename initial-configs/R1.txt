@@ -1,6 +1,5 @@
 
 
-
 vrf definition Level1
  address-family ipv4
  exit-address-family
@@ -84,10 +83,6 @@ interface GigabitEthernet1.9
  vrf forwarding Level1
  ip address 9.0.0.0 255.255.255.254
 !
-
-
-
-
 !
 !
 end
