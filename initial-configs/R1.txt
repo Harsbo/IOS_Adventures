@@ -30,6 +30,36 @@ ip host R4 10.3.45.4
 ip host Castle3 100.3.0.20
 !
 !
+interface GigabitEthernet1
+ no ip address
+ no shutdown
+!
+interface GigabitEthernet1.9
+ description To Captain Catalyst
+ encapsulation dot1Q 9
+ vrf forwarding Level1
+ ip address 9.0.0.0 255.255.255.254
+!
+interface GigabitEthernet1.101
+ encapsulation dot1Q 101
+ vrf forwarding Level2
+ ip address 172.21.0.1 255.255.255.0
+!
+interface GigabitEthernet1.102
+ encapsulation dot1Q 102
+ vrf forwarding Level3
+ ip address 172.22.0.1 255.255.255.0
+!
+interface GigabitEthernet1.103
+ encapsulation dot1Q 103
+ vrf forwarding Level4
+ ip address 172.23.0.1 255.255.255.0
+!
+interface GigabitEthernet1.104
+ encapsulation dot1Q 104
+ vrf forwarding Level5
+ ip address 172.24.0.1 255.255.255.0
+!
 interface GigabitEthernet1.112
  encapsulation dot1Q 112
  vrf forwarding Level1
@@ -54,34 +84,9 @@ interface GigabitEthernet1.512
  vrf forwarding Level5
  ipv6 address 10:5:12::1/120
 !
-interface GigabitEthernet1.101
- encapsulation dot1Q 101
- vrf forwarding Level2
- ip address 172.21.0.1 255.255.255.0
-!
-interface GigabitEthernet1.102
- encapsulation dot1Q 102
- vrf forwarding Level3
- ip address 172.22.0.1 255.255.255.0
-!
-interface GigabitEthernet1.103
- encapsulation dot1Q 103
- vrf forwarding Level4
- ip address 172.23.0.1 255.255.255.0
-!
-interface GigabitEthernet1.104
- encapsulation dot1Q 104
- vrf forwarding Level5
- ip address 172.24.0.1 255.255.255.0
-!
 interface Loopback 536
  vrf forwarding Level5
-!
-interface GigabitEthernet1.9
- description To Captain Catalyst
- encapsulation dot1Q 9
- vrf forwarding Level1
- ip address 9.0.0.0 255.255.255.254
+ no ip address
 !
 !
 !

@@ -28,48 +28,52 @@ ip host R4 10.3.45.4
 ip host Castle3 100.3.0.20
 !
 !
+interface GigabitEthernet1
+ no ip address
+ no shutdown
+!
 interface GigabitEthernet1.134
  encapsulation dot1Q 134
  vrf forwarding Level1
  ip address 10.1.34.4 255.255.255.0
-!
-interface GigabitEthernet1.234
- encapsulation dot1Q 234
- vrf forwarding Level2
- ip address 10.2.34.4 255.255.255.0
-!
-interface GigabitEthernet1.334
- encapsulation dot1Q 334
- vrf forwarding Level3
- ip address 10.3.34.4 255.255.255.0
-!
-interface GigabitEthernet1.434
- encapsulation dot1Q 434
- ip address 10.4.34.4 255.255.255.0
-!
-interface GigabitEthernet1.534
- encapsulation dot1Q 534
- vrf forwarding Level5
- ipv6 address 10:5:34::4/120
 !
 interface GigabitEthernet1.145
  encapsulation dot1Q 145
  vrf forwarding Level1
  ip address 10.1.45.4 255.255.255.0
 !
+interface GigabitEthernet1.234
+ encapsulation dot1Q 234
+ vrf forwarding Level2
+ ip address 10.2.34.4 255.255.255.0
+!
 interface GigabitEthernet1.245
  encapsulation dot1Q 245
  vrf forwarding Level2
  ip address 10.2.45.4 255.255.255.0
+!
+interface GigabitEthernet1.334
+ encapsulation dot1Q 334
+ vrf forwarding Level3
+ ip address 10.3.34.4 255.255.255.0
 !
 interface GigabitEthernet1.345
  encapsulation dot1Q 345
  vrf forwarding Level3
  ip address 10.3.45.4 255.255.255.0
 !
+interface GigabitEthernet1.434
+ encapsulation dot1Q 434
+ ip address 10.4.34.4 255.255.255.0
+!
 interface GigabitEthernet1.445
  encapsulation dot1Q 445
  ip address 10.4.45.4 255.255.255.0
+!
+interface GigabitEthernet1.534
+ encapsulation dot1Q 534
+ vrf forwarding Level5
+ ipv6 address 10:5:34::4/120
 !
 interface GigabitEthernet1.545
  encapsulation dot1Q 545
@@ -78,6 +82,7 @@ interface GigabitEthernet1.545
 !
 interface Loopback 536
  vrf forwarding Level5
+ no ip address
 !
 !
 !

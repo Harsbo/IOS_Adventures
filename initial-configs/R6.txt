@@ -9,6 +9,10 @@ ip host castle4 3001 100.4.0.20
 ip host castle5 3001 100.5.0.20
 !
 !
+interface GigabitEthernet1
+ no ip address
+ no shutdown
+!
 interface GigabitEthernet1.9
  encapsulation dot1Q 9
  ip address 9.0.0.1 255.255.255.254
