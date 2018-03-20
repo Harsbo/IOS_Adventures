@@ -1,6 +1,6 @@
 
 
-hostname R6
+!hostname R6
 !
 ip host castle1 3001 100.1.0.20
 ip host castle2 3001 100.2.0.20
