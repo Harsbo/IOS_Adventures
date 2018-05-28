@@ -1,0 +1,2800 @@
+
+#
+# Put this configuration on R5
+#
+!
+!
+!
+banner motd ^
+
+
+
+ Welcome to the castle. Login here to enter the chamber.
+
+
+^
+!
+!
+!
+!hostname R5
+no service config
+service password-encryption
+!service timestamps log datetime localtime
+!
+vrf definition Level1
+ rd 400:1
+ !
+ address-family ipv4
+ exit-address-family
+!
+vrf definition Level2
+ rd 400:2
+ !
+ address-family ipv4
+ exit-address-family
+!
+vrf definition Level3
+ rd 400:3
+ !
+ address-family ipv4
+ exit-address-family
+!
+vrf definition Level4
+ rd 400:4
+ !
+ address-family ipv4
+ exit-address-family
+!
+vrf definition Level5
+ rd 400:5
+ !
+ address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+vrf definition Castle1
+ rd 20:1
+ !
+ address-family ipv4
+ exit-address-family
+!
+vrf definition Castle2
+ rd 20:2
+ !
+ address-family ipv4
+ exit-address-family
+!
+vrf definition Castle3
+ rd 20:3
+ !
+ address-family ipv4
+ exit-address-family
+!
+vrf definition Castle4
+ rd 20:4
+ !
+ address-family ipv4
+ exit-address-family
+!
+vrf definition Castle5
+ rd 20:5
+ !
+ address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!
+!banner exec ^
+!
+!
+!
+! ######################################################
+! #                                                    #
+! #                  !!! STOP !!!                      #
+! #                                                    #
+! # Why are you scrolling down? You are not allowed    #
+! # to look at this configuration prior to playing     #
+! # the game.                                          #
+! #                                                    #
+! ######################################################
+!
+!
+!^
+!
+! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!
+!
+!
+!
+!
+!
+!
+logging on
+logging buffered 65536
+logging discriminator NOLOG msg-body drops No MD5 digest from
+logging buffered discriminator NOLOG
+logging console discriminator NOLOG
+logging monitor discriminator NOLOG
+no service telnet-zeroidle
+no service hide-telnet-addresses
+no service tcp-small-servers
+no service udp-small-servers
+no route-tag notation dotted-decimal
+aaa new-model
+no ip source-route
+ip options drop
+ip multicast-routing distributed
+mpls ldp holdtime 180
+mpls ldp maxhops 255
+mpls ldp logging neighbor-changes
+mpls label mode all-vrfs protocol all-afs per-prefix
+!
+ip host Castle3 100.3.0.20
+ip host R1 172.22.0.1
+ip host R4 10.3.45.4
+ip global-nameserver
+login on-success log
+ipv6 unicast-routing
+no authentication logging verbose
+!
+cdp advertise-v2
+cdp timer 60
+cdp holdtime 180
+!
+key chain VTEP10
+ key 1
+   key-string 7 061207285F471A1B0A100718
+key chain VTEP20
+ key 1
+   key-string 7 02120C52180F1C20405D061B0A100718
+key chain VTEP30
+ key 1
+   key-string 7 1435170700092B25690E3C2726
+!
+object-group network Captain_Catalyst
+ host 9.0.0.1
+!
+object-group network Chamber_Addresses
+ host 100.1.0.20
+ host 100.2.0.20
+ host 100.3.0.20
+ host 100.4.0.20
+ host 100.5.0.20
+!
+object-group network Castle_Addresses
+ host 172.21.0.20
+ host 172.22.0.20
+ host 172.23.0.20
+ host 172.24.0.20
+ host 100.1.0.20
+ host 100.2.0.20
+ host 100.3.0.20
+ host 100.4.0.20
+ host 100.5.0.20
+!
+object-group network Local_Addresses
+ host 172.21.0.20
+ host 172.22.0.20
+ host 172.23.0.20
+ host 172.24.0.20
+ host 10.1.45.5
+ host 10.2.45.5
+ host 10.2.55.5
+ host 10.3.45.5
+ host 10.3.55.5
+ host 10.4.45.5
+ host 10.4.55.5
+ host 100.1.0.20
+ host 100.2.0.20
+ host 100.3.0.20
+ host 100.4.0.20
+ host 100.5.0.20
+ host 10.5.12.5
+ host 10.5.23.5
+ host 10.5.34.5
+ host 10.5.45.5
+ host 10.5.55.5
+!
+username Castle1 secret 5 $1$GqoH$UkQhitYMnqOf6C0TqHMYo1
+username Castle2 secret 5 $1$gKka$4NXHQARLz2TLY/in2JxVH1
+username Castle3 secret 5 $1$cAg1$XUzncC7deFgDOO2s.52Je/
+username Level1 secret 5 $1$t0cW$MFO090weoG/lyCUXHTuCq1
+username Level2 secret 5 $1$aUhB$/rgSFD2W9.h6bzEuox3F20
+username Level3 secret 5 $1$6md1$g2T6DcLCeXia61J2EDUod/
+username Princess secret 5 $1$Li6A$y9TUTwmZ9NpZStS33dKPa/
+username write-only secret 5 $1$M8Lp$abpiqQwkO6KKQS69q/57m/
+!
+track 10 stub-object
+!
+track 11 stub-object
+!
+track 12 stub-object
+!
+track 13 stub-object
+!
+track 14 stub-object
+!
+track 15 stub-object
+!
+track 16 stub-object
+!
+track 17 stub-object
+!
+track 18 stub-object
+!
+track 19 stub-object
+!
+track 20 stub-object
+!
+track 21 stub-object
+!
+track 22 stub-object
+!
+track 23 stub-object
+!
+track 24 stub-object
+!
+track 25 stub-object
+!
+track 26 stub-object
+!
+track 27 stub-object
+!
+track 28 stub-object
+!
+track 29 stub-object
+!
+track 30 stub-object
+!
+track 31 stub-object
+!
+track 32 stub-object
+!
+track 33 stub-object
+!
+track 34 stub-object
+!
+track 35 stub-object
+!
+track 36 stub-object
+!
+track 37 stub-object
+!
+track 38 stub-object
+!
+track 39 stub-object
+!
+track 40 stub-object
+!
+track 41 stub-object
+!
+track 42 stub-object
+!
+track 43 stub-object
+!
+track 44 stub-object
+!
+track 45 stub-object
+!
+track 46 stub-object
+!
+track 47 stub-object
+!
+track 48 stub-object
+!
+track 49 stub-object
+!
+track 50 stub-object
+!
+track 51 stub-object
+!
+track 52 stub-object
+!
+track 100 stub-object
+!
+track 101 interface GigabitEthernet1.101 line-protocol
+!
+track 102 interface GigabitEthernet1.102 line-protocol
+!
+track 103 interface GigabitEthernet1.103 line-protocol
+!
+track 104 interface GigabitEthernet1.104 line-protocol
+!
+track 302 stub-object
+!
+track 303 stub-object
+!
+track 304 stub-object
+!
+track 305 stub-object
+!
+track 404 stub-object
+!
+track 501 stub-object
+!
+track 502 stub-object
+!
+track 503 stub-object
+!
+track 504 stub-object
+!
+track 505 stub-object
+!
+ip finger
+username Level4 secret 5 $1$o5xz$bx44bgD00wJIC67h/L.ZB0
+username Level5 secret 5 $1$tKAI$b4v5YiwuZlzvYbMnwLhwM.
+!
+class-map match-all COPP
+ match access-group name PERMIT_DROP
+class-map match-all COPP-IN
+ match access-group name COPP-IN
+class-map match-all EIGRP
+ match vlan  245 255
+class-map match-all DROP
+ match access-group name COPP_DROP
+class-map match-all PERMIT
+ match access-group name COPP_PERMIT
+!
+policy-map Castle2
+ class EIGRP
+  set ip dscp default
+!
+policy-map COPP
+ class PERMIT
+ class DROP
+  police 8000 conform-action drop  exceed-action drop
+!
+policy-map COPP-DROP
+ class PERMIT
+  police 8000 conform-action drop  exceed-action drop
+!
+policy-map COPP-IN
+ class COPP-IN
+ class DROP
+  police 8000 conform-action drop  exceed-action drop
+!
+policy-map PERMIT-policy
+ class COPP
+ class DROP
+  police 8000 conform-action drop  exceed-action drop
+!
+zone security Castle5
+zone security Castle4
+zone security Castle3
+zone security Castle2
+zone security Castle1
+!
+interface Null0
+ no ipv6 unreachables
+!
+interface Loopback1
+ vrf forwarding Castle1
+ ip address 100.1.0.20 255.255.255.255
+!
+interface Loopback2
+ vrf forwarding Castle2
+ ip address 100.2.0.20 255.255.255.255
+!
+interface Loopback3
+ vrf forwarding Castle3
+ ip address 100.3.0.20 255.255.255.255
+!
+interface Loopback4
+ vrf forwarding Castle4
+ ip address 100.4.0.20 255.255.255.255
+!
+interface Loopback5
+ vrf forwarding Castle5
+ ip address 100.5.0.20 255.255.255.255
+!
+interface Loopback51
+ no ip address
+ ip redirects
+ ip unreachables
+ ip proxy-arp
+!
+interface Loopback52
+ no ip address
+ ip redirects
+ ip unreachables
+ ip proxy-arp
+!
+interface Loopback53
+ no ip address
+ ip redirects
+ ip unreachables
+ ip proxy-arp
+!
+interface Loopback54
+ no ip address
+ ip redirects
+ ip unreachables
+ ip proxy-arp
+!
+interface Loopback55
+ no ip address
+ ip redirects
+ ip unreachables
+ ip proxy-arp
+!
+interface Loopback56
+ no ip address
+ ip redirects
+ ip unreachables
+ ip proxy-arp
+!
+interface Loopback57
+ no ip address
+ ip redirects
+ ip unreachables
+ ip proxy-arp
+ shutdown
+!
+interface Loopback58
+ no ip address
+ ip redirects
+ ip unreachables
+ ip proxy-arp
+ shutdown
+!
+interface Loopback59
+ no ip address
+ ip redirects
+ ip unreachables
+ ip proxy-arp
+ shutdown
+!
+interface Tunnel12
+ vrf forwarding Castle5
+ ip address 10.5.12.5 255.255.255.0
+ ip access-group X8QAWWVt in
+ tunnel source 10:5:45::5
+ tunnel mode gre ipv6
+ tunnel destination 10:5:12::1
+ tunnel key 12
+ tunnel path-mtu-discovery
+ tunnel vrf Castle5
+!
+interface Tunnel23
+ vrf forwarding Castle5
+ ip address 10.5.23.5 255.255.255.0
+ ip access-group X8QAWWVt in
+ tunnel source Tunnel12
+ tunnel destination 10.5.12.1
+ tunnel key 23
+ tunnel vrf Castle5
+!
+interface Tunnel34
+ vrf forwarding Castle5
+ ip address 10.5.34.5 255.255.255.0
+ ip access-group X8QAWWVt in
+ tunnel source Tunnel23
+ tunnel destination 10.5.23.1
+ tunnel key 34
+ tunnel vrf Castle5
+!
+interface Tunnel45
+ vrf forwarding Castle5
+ ip address 10.5.45.5 255.255.255.0
+ tunnel source Tunnel34
+ tunnel destination 10.5.34.1
+ tunnel key 45
+ tunnel vrf Castle5
+!
+interface Tunnel55
+ vrf forwarding Castle5
+ ip address 10.5.55.5 255.255.255.0
+ ip access-group X8QAWWVt in
+ tunnel source Tunnel45
+ tunnel destination 10.5.45.1
+ tunnel key 55
+ tunnel vrf Castle5
+!
+interface LISP10
+ bandwidth 1000000
+ delay 1
+!
+interface LISP88
+ bandwidth 1000000
+ delay 1
+!
+interface LISP88.88
+!
+interface GigabitEthernet1
+ no ip address
+ no shutdown
+!
+interface GigabitEthernet1.101
+ encapsulation dot1Q 101
+ vrf forwarding Castle1
+ ip address 172.21.0.20 255.255.255.0
+ no ip redirects
+ no ip proxy-arp
+ ip access-group X8QAWWI2 in
+ shutdown
+!
+interface GigabitEthernet1.102
+ encapsulation dot1Q 102
+ vrf forwarding Castle2
+ ip address 172.22.0.20 255.255.255.0
+ no ip redirects
+ no ip proxy-arp
+ ip access-group X8QAWWII2 in
+ shutdown
+!
+interface GigabitEthernet1.103
+ encapsulation dot1Q 103
+ vrf forwarding Castle3
+ ip address 172.23.0.20 255.255.255.0
+ no ip redirects
+ no ip proxy-arp
+ ip access-group X8QAWWIII2 in
+ shutdown
+!
+interface GigabitEthernet1.104
+ encapsulation dot1Q 104
+ vrf forwarding Castle4
+ ip address 172.24.0.20 255.255.255.0
+ no ip redirects
+ no ip proxy-arp
+ ip access-group X8QAWWIV2 in
+ shutdown
+!
+interface GigabitEthernet1.105
+ encapsulation dot1Q 105
+ vrf forwarding Castle5
+ ip address 172.25.0.20 255.255.255.0
+ no ip redirects
+ no ip proxy-arp
+ shutdown
+!
+interface GigabitEthernet1.145
+ encapsulation dot1Q 145
+ vrf forwarding Castle1
+ ip address 10.1.45.5 255.255.255.0
+ no ip redirects
+ no ip proxy-arp
+ ip nat inside
+ ip rip advertise 10
+ ip rip authentication mode md5
+ ip rip authentication key-chain VTEP30
+ ip verify unicast source reachable-via rx allow-default allow-self-ping
+ ip access-group X8QAWWI in
+!
+interface GigabitEthernet1.155
+ encapsulation dot1Q 155
+ vrf forwarding Level1
+ ip address 10.1.55.5 255.255.255.0
+ no ip redirects
+ no ip proxy-arp
+ ip verify unicast source reachable-via rx allow-default allow-self-ping
+ ip access-group X8QAWWI in
+!
+interface GigabitEthernet1.245
+ encapsulation dot1Q 245
+ vrf forwarding Castle2
+ ip address 10.2.45.5 255.255.255.0
+ no ip redirects
+ no ip proxy-arp
+ ip nat inside
+ ip verify unicast source reachable-via rx allow-default allow-self-ping
+ ip access-group X8QAWWII in
+ ip access-group X8QAWWV out
+ shutdown
+!
+interface GigabitEthernet1.255
+ encapsulation dot1Q 255
+ !vrf forwarding Castle2
+ ip address 10.2.55.5 255.255.255.0
+ no ip redirects
+ no ip proxy-arp
+ ip nat inside
+ ip verify unicast source reachable-via rx allow-default allow-self-ping
+ ip access-group X8QAWWIIl in
+ ip access-group X8QAWWIIl2out out
+ shutdown
+!
+interface GigabitEthernet1.345
+ encapsulation dot1Q 345
+ vrf forwarding Castle3
+ ip address 10.3.45.5 255.255.255.0
+ no ip redirects
+ no ip proxy-arp
+ ip nat inside
+ ip verify unicast source reachable-via rx allow-default allow-self-ping
+ ip access-group X8QAWWIII in
+ ip access-group X8QAWWV out
+ !ip ospf database-filter all out
+ ip ospf network point-to-point
+ ip ospf dead-interval 8
+ ip ospf hello-interval 2
+ ip ospf ttl-security
+ ip ospf 3 area 1
+ shutdown
+!
+interface GigabitEthernet1.445
+ encapsulation dot1Q 445
+ ip address 10.4.45.5 255.255.255.0
+ no ip redirects
+ no ip proxy-arp
+ ip nat inside
+ ip router isis 4
+ ip verify unicast source reachable-via rx allow-default allow-self-ping
+ ip access-group X8QAWWIV in
+ ip access-group X8QAWWV out
+ mpls bgp forwarding
+ shutdown
+!
+interface GigabitEthernet1.545
+ encapsulation dot1Q 545
+ vrf forwarding Castle5
+ ip access-group X8QAWWV in
+ ipv6 address FE80::5 link-local
+ ipv6 address 10:5:45::5/120
+ ipv6 verify unicast source reachable-via rx allow-default
+ ipv6 traffic-filter X8QAWWVI in
+ ipv6 traffic-filter X8QAWWVIout out
+ ospfv3 network point-to-point
+ ospfv3 5 ipv6 area 0
+ shutdown
+!
+interface GigabitEthernet2
+ !vrf forwarding Mgmt
+ !ip address dhcp
+ !negotiation auto
+!
+router eigrp Castle2
+ !
+ address-family ipv4 unicast vrf Castle2 autonomous-system 2
+  !
+  af-interface default
+   authentication mode hmac-sha-256 7 061301245D5B081548141D1818
+   bandwidth-percent 50
+   no dampening-change
+   no dampening-interval
+   hello-interval 3
+   hold-time 9
+   no passive-interface
+   split-horizon
+  exit-af-interface
+  !
+  topology base
+   maximum-paths 2
+   variance 2
+   distribute-list route-map eigrpIIout in
+   distribute-list route-map eigrpIIin out
+   redistribute connected route-map wwl2m
+   redistribute static metric 100000 10 255 1 1500
+   redistribute bgp 400 metric 100000 10 255 1 1500
+  exit-af-topology
+  network 10.0.0.0
+  maximum-prefix 101 warning-only
+  eigrp router-id 100.2.0.20
+ exit-address-family
+!
+router eigrp Level2
+ !
+ address-family ipv4 unicast vrf Level2 autonomous-system 2
+  !
+  af-interface default
+   authentication mode hmac-sha-256 7 061301245D5B081548141D1818
+   bandwidth-percent 50
+   no dampening-change
+   no dampening-interval
+   hello-interval 3
+   hold-time 9
+   no passive-interface
+   split-horizon
+  exit-af-interface
+  !
+  topology base
+   maximum-paths 2
+   variance 2
+   distribute-list route-map eigrpIIout in
+   distribute-list route-map eigrpIIin out
+   redistribute connected route-map wwl2m
+   redistribute static metric 100000 10 255 1 1500
+   redistribute bgp 400 metric 100000 10 255 1 1500
+  exit-af-topology
+  network 10.0.0.0
+  maximum-prefix 101 warning-only
+  eigrp router-id 10.2.0.20
+ exit-address-family
+!
+router eigrp OTP
+ !
+ address-family ipv4 unicast autonomous-system 2
+  no shutdown
+  !
+  af-interface default
+   authentication mode hmac-sha-256 7 111C170006070A00492924373C
+   bandwidth-percent 50
+   no dampening-change
+   no dampening-interval
+   hello-interval 3
+   hold-time 9
+   no passive-interface
+   split-horizon
+  exit-af-interface
+  !
+  topology base
+  exit-af-topology
+  !
+  topology vrf Castle2 tid 88 lisp-instance-id 88
+   maximum-paths 2
+   variance 2
+   !
+   topo-interface default
+    authentication mode hmac-sha-256 7 00111D03154E0A0A4222435D1D
+   hello-interval 3
+   hold-time 9
+   exit-topo-interface
+   !
+   topo-interface Loopback2
+    shutdown
+   exit-topo-interface
+   !
+   topo-interface GigabitEthernet1.102
+    passive-interface
+   exit-topo-interface
+   !
+   distribute-list route-map eigrpIIin out
+   distribute-list route-map eigrpIIout in
+   redistribute connected route-map wwl2m
+   redistribute static metric 100000 10 255 1 1500
+  exit-af-topology
+  neighbor 10.2.55.4 GigabitEthernet1.255 remote 100 lisp-encap 88
+  network 10.2.55.0 0.0.0.255
+  eigrp router-id 100.0.0.20
+ exit-address-family
+!
+!
+router ospfv3 5
+ no prefix-suppression
+ no bfd all-interfaces
+ compatible rfc1583
+ no compatible rfc1587
+ compatible rfc5243
+ no shutdown
+ !
+ address-family ipv6 unicast vrf Castle5
+  no passive-interface default
+  distance 110
+  no default-information originate
+  default-metric 20
+  redistribute static metric 89 metric-type 1 tag 5
+  maximum-paths 5
+  discard-route external
+ exit-address-family
+ !
+ address-family ipv6 unicast vrf Level5
+  no passive-interface default
+  distance 110
+  no default-information originate
+  default-metric 20
+  redistribute static metric 89 metric-type 1 tag 5
+  maximum-paths 5
+  discard-route external
+ exit-address-family
+!
+router ospf 2 vrf Level3
+ router-id 100.30.0.20
+ priority 3
+ !ispf
+ no auto-cost
+ max-lsa 12 90 ignore-time 1 ignore-count 60000
+ capability opaque
+ capability vrf-lite
+ capability lls
+ capability transit
+ area 1 stub
+ area 2 stub
+ area 3 stub
+ area 4 stub
+ redistribute connected subnets route-map wwl2k
+ redistribute static metric 100 subnets
+ redistribute bgp 400 subnets
+ maximum-paths 3
+ distribute-list route-map eigrpIII in
+!
+router ospf 3 vrf Castle3
+ router-id 100.3.0.20
+ priority 3
+ !ispf
+ no auto-cost
+ max-lsa 12 90 ignore-time 1 ignore-count 60000
+ capability opaque
+ capability vrf-lite
+ capability lls
+ capability transit
+ area 1 stub
+ area 2 stub
+ area 3 stub
+ area 4 stub
+ redistribute connected subnets route-map wwl2k
+ redistribute static metric 100 subnets
+ redistribute bgp 400 subnets
+ maximum-paths 3
+ distribute-list route-map eigrpIII in
+!
+router isis 4
+ no protocol shutdown
+ max-area-addresses 3
+ metric-style narrow
+ is-type level-1-2
+ maximum-paths 4
+ distance 115 ip
+!
+router rip
+ validate-update-source
+ !
+ address-family ipv4 vrf Castle1
+  traffic-share min across-interfaces
+  timers basic 10 60 60 80
+  redistribute connected route-map wwl2l
+  redistribute bgp 400 metric 5
+  offset-list 0 in 11
+  network 10.0.0.0
+  maximum-paths 1
+  distribute-list prefix DENY-ALL out
+  distribute-list prefix CAPTAIN in
+  no auto-summary
+  version 2
+ exit-address-family
+ !
+ address-family ipv4 vrf Level1
+  traffic-share min across-interfaces
+  timers basic 10 60 60 80
+  redistribute connected route-map wwl2l
+  redistribute bgp 400 metric 5
+  offset-list 0 in 11
+  network 10.0.0.0
+  maximum-paths 1
+  distribute-list prefix DENY-ALL out
+  distribute-list prefix CAPTAIN in
+  no auto-summary
+  version 2
+ exit-address-family
+!
+router bgp 400
+ template peer-policy Castle1
+  route-reflector-client
+  send-community both
+  additional-paths send receive
+ exit-peer-policy
+ !
+ template peer-policy Castle2
+  route-reflector-client
+  send-community both
+  additional-paths send receive
+ exit-peer-policy
+ !
+ template peer-policy Castle3
+  route-reflector-client
+  send-community both
+  additional-paths send receive
+ exit-peer-policy
+ !
+ template peer-policy Castle4
+  route-reflector-client
+  send-community both
+  additional-paths send receive
+ exit-peer-policy
+ !
+ template peer-session Castle1
+  remote-as 1337
+  password 7 0235217839233B
+  update-source GigabitEthernet1.101
+ exit-peer-session
+ !
+ template peer-session Castle2
+  remote-as 1337
+  password 7 122A2034202E38
+  update-source GigabitEthernet1.102
+ exit-peer-session
+ !
+ template peer-session Castle3
+  remote-as 1337
+  password 7 04682E253D0478
+  update-source GigabitEthernet1.103
+ exit-peer-session
+ !
+ template peer-session Castle4
+  remote-as 1337
+  password 7 097F6B2A2B2023
+  update-source GigabitEthernet1.104
+ exit-peer-session
+ !
+ template peer-session Castle5
+  remote-as 1337
+  password 7 097F6B2A2B2023
+  update-source GigabitEthernet1.105
+ exit-peer-session
+ !
+ bgp router-id 100.0.0.20
+ bgp always-compare-med
+ bgp log-neighbor-changes
+ bgp bestpath med confed missing-as-worst
+ bgp bestpath as-path ignore
+ bgp bestpath compare-routerid
+ bgp bestpath cost-community ignore
+ no bgp default ipv4-unicast
+ no bgp default route-target filter
+ neighbor 10.4.45.4 remote-as 1337
+ neighbor 10.4.45.4 disable-connected-check
+ neighbor 10.4.45.4 password 7 151C0E141067232B387E202C100F170D06535D
+ !
+ address-family ipv4
+  no synchronization
+  maximum-paths 4
+ exit-address-family
+ !
+ address-family vpnv4
+  neighbor 10.4.45.4 activate
+  neighbor 10.4.45.4 send-community both
+  neighbor 10.4.45.4 route-map WW5QDAWIVout out
+  neighbor 10.4.45.4 route-map WW5QDAWIVVin in
+  neighbor 10.4.45.4 maximum-prefix 2 warning-only
+ exit-address-family
+ !
+ address-family ipv4 vrf Castle1
+  redistribute rip route-map WW5QDAWIout
+  neighbor 172.21.0.1 remote-as 1337
+  neighbor 172.21.0.1 disable-connected-check
+  neighbor 172.21.0.1 timers 30 60
+  neighbor 172.21.0.1 activate
+  neighbor 172.21.0.1 send-community both
+  neighbor 172.21.0.1 soft-reconfiguration inbound
+  neighbor 172.21.0.1 route-map WW5QDAWIin in
+ exit-address-family
+ !
+ address-family ipv4 vrf Castle2
+  redistribute eigrp 2
+  neighbor 172.22.0.1 remote-as 1337
+  neighbor 172.22.0.1 disable-connected-check
+  neighbor 172.22.0.1 timers 30 60
+  neighbor 172.22.0.1 activate
+  neighbor 172.22.0.1 send-community both
+  neighbor 172.22.0.1 soft-reconfiguration inbound
+  neighbor 172.22.0.1 route-map WW5QDAWIIin in
+ exit-address-family
+ !
+ address-family ipv4 vrf Castle3
+  redistribute ospf 3 route-map WW5QDAWIIIout
+  neighbor 172.23.0.1 remote-as 1337
+  neighbor 172.23.0.1 disable-connected-check
+  neighbor 172.23.0.1 password 7 09424B110D481F1D1B411124282C293D322717
+  neighbor 172.23.0.1 timers 30 60
+  neighbor 172.23.0.1 activate
+  neighbor 172.23.0.1 send-community both
+  neighbor 172.23.0.1 soft-reconfiguration inbound
+  neighbor 172.23.0.1 route-map WW5QDAWIIIin in
+ exit-address-family
+ !
+ address-family ipv4 vrf Castle4
+  redistribute static
+  neighbor 172.24.0.1 remote-as 1337
+  neighbor 172.24.0.1 disable-connected-check
+  neighbor 172.24.0.1 timers 30 60
+  neighbor 172.24.0.1 activate
+  neighbor 172.24.0.1 send-community both
+  neighbor 172.24.0.1 soft-reconfiguration inbound
+  neighbor 172.24.0.1 route-map WW5QDAWIVin in
+  neighbor 172.24.0.1 route-map WW5QDAWIVV out
+ exit-address-family
+ !
+ address-family ipv4 vrf Level1
+  redistribute rip route-map WW5QDAWIout
+  neighbor 172.21.0.1 remote-as 1337
+  neighbor 172.21.0.1 disable-connected-check
+  neighbor 172.21.0.1 timers 30 60
+  neighbor 172.21.0.1 activate
+  neighbor 172.21.0.1 send-community both
+  neighbor 172.21.0.1 soft-reconfiguration inbound
+  neighbor 172.21.0.1 route-map WW5QDAWIin in
+ exit-address-family
+ !
+ address-family ipv4 vrf Level2
+  neighbor 172.22.0.1 remote-as 1337
+  neighbor 172.22.0.1 disable-connected-check
+  neighbor 172.22.0.1 timers 30 60
+  neighbor 172.22.0.1 activate
+  neighbor 172.22.0.1 send-community both
+  neighbor 172.22.0.1 soft-reconfiguration inbound
+  neighbor 172.22.0.1 route-map WW5QDAWIIin in
+ exit-address-family
+ !
+ address-family ipv4 vrf Level3
+  redistribute ospf 2 route-map WW5QDAWIIIout
+  neighbor 172.23.0.1 remote-as 1337
+  neighbor 172.23.0.1 disable-connected-check
+  neighbor 172.23.0.1 password 7 09424B110D481F1D1B411124282C293D322717
+  neighbor 172.23.0.1 timers 30 60
+  neighbor 172.23.0.1 activate
+  neighbor 172.23.0.1 send-community both
+  neighbor 172.23.0.1 soft-reconfiguration inbound
+  neighbor 172.23.0.1 route-map WW5QDAWIIIin in
+ exit-address-family
+ !
+ address-family ipv4 vrf Level4
+  redistribute static
+  neighbor 172.24.0.1 remote-as 1337
+  neighbor 172.24.0.1 disable-connected-check
+  neighbor 172.24.0.1 timers 30 60
+  neighbor 172.24.0.1 activate
+  neighbor 172.24.0.1 send-community both
+  neighbor 172.24.0.1 soft-reconfiguration inbound
+  neighbor 172.24.0.1 route-map WW5QDAWIVin in
+  neighbor 172.24.0.1 route-map WW5QDAWIVV out
+ exit-address-family
+ !
+ address-family ipv4 vrf Castle5
+  redistribute connected route-map Cloud-Connected
+  neighbor 10.4.45.4 remote-as 1337
+  neighbor 10.4.45.4 disable-connected-check
+  neighbor 10.4.45.4 timers 30 60
+  neighbor 10.4.45.4 activate
+  neighbor 10.4.45.4 send-community both
+  neighbor 10.4.45.4 capability orf prefix-list both
+  neighbor 10.4.45.4 soft-reconfiguration inbound
+  neighbor 10.4.45.4 prefix-list WW5QDAWVV in
+  neighbor 10.5.45.1 remote-as 1337
+  neighbor 10.5.45.1 disable-connected-check
+  neighbor 10.5.45.1 timers 30 60
+  neighbor 10.5.45.1 activate
+  neighbor 10.5.45.1 send-community both
+  neighbor 10.5.45.1 capability orf prefix-list both
+  neighbor 10.5.45.1 soft-reconfiguration inbound
+  neighbor 10.5.45.1 prefix-list WW5QDAWVV in
+ exit-address-family
+ !
+ address-family ipv6 vrf Castle5
+  redistribute connected route-map IPv6-2-BGP
+  redistribute static route-map IPv6-2-BGP
+  neighbor 10:5:45::4 remote-as 1337
+  neighbor 10:5:45::4 description Fallback-Princess
+  neighbor 10:5:45::4 shutdown
+  neighbor 10:5:45::4 timers 10 30
+  neighbor 10:5:45::4 activate
+  neighbor 10:5:45::4 remove-private-as
+  neighbor 10:5:45::4 soft-reconfiguration inbound
+  neighbor 10:5:45::4 prefix-list IPv6-ANNOUNCE out
+ exit-address-family
+!
+!
+ip access-list log-update threshold 1
+ip extcommunity-list standard Castle4 permit rt 20000:4000
+ip extcommunity-list standard IPv6-ALLOW-FROM permit rt 400:545
+ip extcommunity-list standard IPv6-ALLOW-TO permit rt 400:545
+ip community-list 90 permit 90
+ip community-list 100 permit 100
+ip community-list 110 permit 110
+ip community-list 120 permit 120
+ip community-list 170 permit 170
+ip community-list 200 permit 200
+!ip community-list 1337 permit 1337
+ip ospf name-lookup
+no ip route static inter-vrf
+ip route vrf Castle4 10.4.12.0 255.255.255.0 Null0
+ip route vrf Castle4 10.4.23.0 255.255.255.0 Null0
+ip route vrf Castle4 10.4.34.0 255.255.255.0 Null0
+ip route vrf Castle4 10.4.45.0 255.255.255.0 Null0
+ip route vrf Level4 10.40.12.0 255.255.255.0 Null0
+ip route vrf Level4 10.40.23.0 255.255.255.0 Null0
+ip route vrf Level4 10.40.34.0 255.255.255.0 Null0
+ip route vrf Level4 10.40.45.0 255.255.255.0 Null0
+!
+ip access-list standard DENY-ALL
+ deny   any
+!
+ip access-list extended COPP_DROP
+ permit tcp any object-group Local_Addresses
+ deny   ip any any
+ip access-list extended COPP_PERMIT
+ permit tcp any any eq bgp
+ permit tcp host 9.0.0.1 host 100.1.0.20 eq 3001
+ permit tcp host 9.0.0.1 host 100.2.0.20 eq 3001
+ permit tcp host 9.0.0.1 host 100.3.0.20 eq 3001
+ permit tcp host 9.0.0.1 host 100.4.0.20 eq 3001 ttl lt 240
+ permit tcp host 9.0.0.1 host 100.5.0.20 eq 3001 ttl lt 240
+ip access-list extended COPP-IN
+ remark - ICMP Necessary
+ permit icmp any any echo
+ permit icmp any any echo-reply
+ permit icmp any any ttl-exceeded
+ permit icmp any any packet-too-big
+ permit icmp any any port-unreachable
+ permit icmp any any unreachable
+ip access-list extended Castle1-IN
+ deny   ahp any any
+ deny   esp any any
+ deny   gre any any
+ deny   ipinip any any
+ deny   tcp any any eq telnet
+ deny   tcp any any eq 22
+ deny   tcp any any eq 3001
+ deny   eigrp any any log
+ permit ip any any
+ deny   ip any any
+ip access-list extended Castle5-DENY
+ permit icmp any any
+ permit gre any any
+ deny   ip any any
+ip access-list extended Chamber3-IN
+ deny   ahp any any
+ deny   esp any any
+ deny   gre any any
+ deny   ipinip any any
+ deny   tcp any any eq telnet
+ deny   tcp any any eq 22
+ deny   tcp any any eq 3001
+ permit ip any any
+ deny   ip any any
+ip access-list extended PERMIT_DROP
+ permit ip any any
+ deny   ip any any
+ip access-list extended X8QAWWI
+ deny   tcp any any eq telnet
+ deny   tcp any any eq 22
+ deny   tcp host 9.0.0.1 host 100.1.0.20 eq 3001
+ permit tcp host 9.0.0.1 host 100.1.0.20 eq 3001 ttl eq 250
+ permit tcp host 9.0.0.1 host 100.2.0.20 eq 3001
+ permit tcp host 9.0.0.1 host 100.3.0.20 eq 3001
+ permit tcp host 9.0.0.1 host 100.4.0.20 eq 3001
+ permit tcp host 9.0.0.1 host 100.5.0.20 eq 3001
+ deny   tcp any any eq 3001
+ deny   udp any host 10.1.45.255 eq rip
+ deny   udp any host 255.255.255.255 eq rip
+ permit ip any any
+ip access-list extended X8QAWWI2
+ deny   ahp any any
+ deny   esp any any
+ deny   gre any any
+ deny   ipinip any any
+ deny   tcp any any eq telnet
+ deny   tcp any any eq 22
+ deny   tcp any any eq 3001
+ deny   eigrp any any log
+ permit ip any any
+ deny   ip any any
+ip access-list extended X8QAWWII
+ deny   tcp any any eq telnet
+ deny   tcp any any eq 22
+ permit tcp host 9.0.0.1 host 100.3.0.20 eq 3001 dscp af42
+ permit tcp host 9.0.0.1 host 100.4.0.20 eq 3001 dscp af42
+ permit tcp host 9.0.0.1 host 100.5.0.20 eq 3001 dscp af42
+ deny   tcp any any eq 3001
+ permit ip any any dscp af42
+ip access-list extended X8QAWWIIl
+ deny   ip any any
+ permit eigrp any any dscp af42
+ permit udp any any eq 4343 dscp af42
+ip access-list extended X8QAWWIIl2out
+ deny   ip any any
+ permit ip any any
+ip access-list extended X8QAWWII2
+ deny   ahp any any
+ deny   esp any any
+ deny   gre any any
+ deny   ipinip any any
+ deny   tcp any any eq telnet
+ deny   tcp any any eq 22
+ deny   tcp any any eq 3001
+ deny   ospf any any log
+ permit ip any any dscp af42
+ deny   ip any any
+ip access-list extended X8QAWWIII
+ deny   tcp any any eq telnet
+ deny   tcp any any eq 22
+ deny   tcp host 9.0.0.1 host 100.3.0.20 eq 3001
+ permit tcp host 9.0.0.1 host 100.3.0.20 eq 3001 ttl eq 240
+ permit tcp host 9.0.0.1 host 100.4.0.20 eq 3001
+ permit tcp host 9.0.0.1 host 100.5.0.20 eq 3001
+ deny   tcp any any eq 3001
+ permit ip any any
+ip access-list extended X8QAWWIII2
+ deny   ahp any any
+ deny   esp any any
+ deny   gre any any
+ deny   ipinip any any
+ deny   tcp any any eq telnet
+ deny   tcp any any eq 22
+ deny   tcp any any eq 3001
+ permit ip any any
+ deny   ip any any
+ip access-list extended X8QAWWIV
+ permit tcp any any eq bgp
+ permit tcp any eq bgp any
+ deny   ip any any
+ip access-list extended X8QAWWIV2
+ deny   ahp any any
+ deny   esp any any
+ deny   gre any any
+ deny   ipinip any any
+ deny   tcp any any eq telnet
+ deny   tcp any any eq 22
+ deny   tcp any any eq 3001
+ permit ip any any
+ deny   ip any any
+ip access-list extended X8QAWWV
+ deny   ip any any
+ip access-list extended X8QAWWV_tun55
+ deny   tcp any any eq telnet
+ deny   tcp any any eq 22
+ deny   tcp host 9.0.0.1 host 100.5.0.20 eq 3001
+ permit tcp host 9.0.0.1 host 100.5.0.20 eq 3001 ttl eq 230
+ deny   tcp any any eq 3001
+ permit ip any any
+ip access-list extended X8QAWWVt
+ permit icmp any any
+ permit gre any any
+ deny   ip any any
+ip access-list extended GENERAL-TO-INTERNET-V2
+ remark -- INTERNET RANGE
+ permit ip any 1.0.0.0 0.255.255.255
+ permit ip any 2.0.0.0 1.255.255.255
+ permit ip any 4.0.0.0 3.255.255.255
+ permit ip any 8.0.0.0 1.255.255.255
+ permit ip any 11.0.0.0 0.255.255.255
+ permit ip any 12.0.0.0 1.255.255.255
+ permit ip any 14.0.0.0 1.255.255.255
+ permit ip any 16.0.0.0 15.255.255.255
+ permit ip any 32.0.0.0 31.255.255.255
+ permit ip any 64.0.0.0 31.255.255.255
+ permit ip any 96.0.0.0 15.255.255.255
+ permit ip any 112.0.0.0 7.255.255.255
+ permit ip any 120.0.0.0 3.255.255.255
+ permit ip any 124.0.0.0 1.255.255.255
+ permit ip any 126.0.0.0 0.255.255.255
+ permit ip any 128.0.0.0 31.255.255.255
+ permit ip any 160.0.0.0 7.255.255.255
+ permit ip any 168.0.0.0 0.255.255.255
+ permit ip any 169.0.0.0 0.127.255.255
+ permit ip any 169.128.0.0 0.63.255.255
+ permit ip any 169.192.0.0 0.31.255.255
+ permit ip any 169.224.0.0 0.15.255.255
+ permit ip any 169.240.0.0 0.7.255.255
+ permit ip any 169.248.0.0 0.3.255.255
+ permit ip any 169.252.0.0 0.1.255.255
+ permit ip any 169.255.0.0 0.0.255.255
+ permit ip any 170.0.0.0 1.255.255.255
+ permit ip any 172.0.0.0 0.15.255.255
+ permit ip any 172.32.0.0 0.31.255.255
+ permit ip any 172.64.0.0 0.63.255.255
+ permit ip any 172.128.0.0 0.127.255.255
+ permit ip any 173.0.0.0 0.255.255.255
+ permit ip any 174.0.0.0 1.255.255.255
+ permit ip any 176.0.0.0 15.255.255.255
+ permit ip any 192.0.0.0 0.0.1.255
+ permit ip any 192.0.3.0 0.0.0.255
+ permit ip any 192.0.4.0 0.0.3.255
+ permit ip any 192.0.8.0 0.0.7.255
+ permit ip any 192.0.16.0 0.0.15.255
+ permit ip any 192.0.32.0 0.0.31.255
+ permit ip any 192.0.64.0 0.0.63.255
+ permit ip any 192.0.128.0 0.0.127.255
+ permit ip any 192.1.0.0 0.0.255.255
+ permit ip any 192.2.0.0 0.1.255.255
+ permit ip any 192.4.0.0 0.3.255.255
+ permit ip any 192.8.0.0 0.7.255.255
+ permit ip any 192.16.0.0 0.15.255.255
+ permit ip any 192.32.0.0 0.31.255.255
+ permit ip any 192.64.0.0 0.63.255.255
+ permit ip any 192.128.0.0 0.31.255.255
+ permit ip any 192.160.0.0 0.7.255.255
+ permit ip any 192.169.0.0 0.0.255.255
+ permit ip any 192.170.0.0 0.1.255.255
+ permit ip any 192.172.0.0 0.3.255.255
+ permit ip any 192.176.0.0 0.15.255.255
+ permit ip any 192.192.0.0 0.63.255.255
+ permit ip any 193.0.0.0 0.255.255.255
+ permit ip any 194.0.0.0 1.255.255.255
+ permit ip any 196.0.0.0 3.255.255.255
+ permit ip any 200.0.0.0 7.255.255.255
+ permit ip any 208.0.0.0 15.255.255.255
+!
+!
+ip prefix-list CAPTAIN seq 5 permit 9.0.0.0/31
+ip prefix-list CAPTAIN seq 10 permit 100.1.1.1/32
+!
+ip prefix-list CAPTAIN_WIDE seq 5 permit 9.0.0.0/30 le 32
+!
+ip prefix-list CASTLE2 seq 5 permit 100.2.0.20/32
+!
+ip prefix-list CASTLE4 seq 5 permit 100.4.0.20/32
+!
+ip prefix-list CASTLES seq 5 permit 100.0.0.0/8 ge 32
+!
+ip prefix-list WW5QDAWVV seq 5 permit 10.0.5.0/24
+!
+ip prefix-list CHAMBER1 seq 5 permit 100.1.0.20/32
+!
+ip prefix-list CHAMBER3 seq 5 permit 100.3.0.20/32
+!
+ip prefix-list DEFAULT seq 5 permit 0.0.0.0/0
+!
+ip prefix-list DENY-ALL seq 5 deny 0.0.0.0/0 le 32
+!
+ip prefix-list LEVELS seq 5 permit 10.1.0.0/16 ge 24 le 24
+ip prefix-list LEVELS seq 10 permit 10.2.0.0/16 ge 24 le 24
+ip prefix-list LEVELS seq 15 permit 10.3.0.0/16 ge 24 le 24
+ip prefix-list LEVELS seq 20 permit 10.4.0.0/16 ge 24 le 24
+ip prefix-list LEVELS seq 25 permit 10.5.0.0/16 ge 24 le 24
+!
+ip prefix-list more-room-for-cap seq 5 permit 9.0.0.0/30 le 32
+!
+ip sla 1
+ icmp-echo 100.0.0.20 source-interface GigabitEthernet1
+ threshold 2000
+ timeout 2000
+ frequency 20
+ip sla schedule 1 life forever start-time now
+ip sla 10
+ icmp-echo 9.0.0.1 source-interface Loopback1
+ threshold 2000
+ timeout 2000
+ frequency 5
+ip sla 20
+ icmp-echo 9.0.0.1 source-interface Loopback2
+ threshold 2000
+ timeout 2000
+ frequency 5
+ip sla 30
+ icmp-echo 9.0.0.1 source-interface Loopback3
+ threshold 2000
+ timeout 2000
+ frequency 5
+ip sla 40
+ icmp-echo 9.0.0.1 source-interface Loopback4
+ threshold 2000
+ timeout 2000
+ frequency 5
+ip sla 50
+ icmp-echo 9.0.0.1 source-interface Loopback5
+ threshold 2000
+ timeout 2000
+ frequency 5
+!
+!
+menu Castle1 title ^
+
+
+
+
+
+  You are in the chamber of Castle 1.
+  You see no princess but there is an old 3560 trapped in some console cables in the corner.
+^
+menu Castle1 prompt ^Castle1#^
+menu Castle1 text q Exit the castle
+menu Castle1 command q exit
+menu Castle1 text 1 Free the switch
+menu Castle1 command 1 event manager run Castle1-talk-to-switch
+menu Castle1 line-mode
+menu Castle1 single-space
+!
+menu Castle2 title ^
+
+
+
+
+
+  You are in the chamber of Castle 2.
+  The princess is not here either but there is an old switch stuck behind a junos acl.
+^
+menu Castle2 prompt ^Castle2#^
+menu Castle2 text q Exit the castle
+menu Castle2 command q exit
+menu Castle2 text 1 Release the switch
+menu Castle2 command 1 event manager run Castle2-talk-to-switch
+menu Castle2 line-mode
+menu Castle2 single-space
+!
+menu Castle3 title ^
+
+
+
+
+
+  You are in the chamber of Castle 3.
+  The princess is not here either but you find a weakened switch with completely exhausted buffers.
+^
+menu Castle3 prompt ^Castle3#^
+menu Castle3 text q Exit the castle
+menu Castle3 command q exit
+menu Castle3 text 1 Help the switch
+menu Castle3 command 1 event manager run Castle3-talk-to-switch
+menu Castle3 line-mode
+menu Castle3 single-space
+!
+menu Castle4 title ^
+
+
+
+
+
+  You are in the chamber of Castle 4.
+  The princess is not here either but you see yet another switch.
+^
+menu Castle4 prompt ^Castle4#^
+menu Castle4 text q Exit the castle
+menu Castle4 command q exit
+menu Castle4 text 1 Talk to the switch
+menu Castle4 command 1 event manager run Castle4-talk-to-switch
+menu Castle4 line-mode
+menu Castle4 single-space
+!
+menu Castle5 title ^
+
+
+
+
+  You are in the chamber of Castle 5.
+  The princess is here!!
+^
+menu Castle5 prompt ^Castle5#^
+menu Castle5 text q Exit the castle
+menu Castle5 command q exit
+menu Castle5 text 1 Send malformed ping to Juniper router
+menu Castle5 command 1 event manager run Castle5-rescue-the-princess
+menu Castle5 line-mode
+menu Castle5 single-space
+!
+route-map BGP-LP90 permit 10
+ set local-preference 90
+!
+route-map IPv6-2-BGP permit 10
+ description standard ipv6 import
+ set local-preference 1000
+!
+route-map wwl2l permit 10
+ match interface Loopback51
+ set tag 23910
+!
+route-map wwl2l permit 20
+ match interface Loopback1
+ set tag 24910
+!
+route-map wwl2l deny 30
+ match interface Loopback1
+!
+route-map wwl2m permit 10
+ match interface Loopback52
+ set tag 2240010
+!
+route-map wwl2m permit 20
+ match interface Loopback2
+ set tag 2240010
+!
+route-map wwl2m deny 30
+ match interface Loopback2
+!
+route-map wwl2k permit 10
+ match interface Loopback53
+ set tag 10000001
+!
+route-map wwl2k permit 20
+ match interface Loopback3
+ set tag 3489660928
+!
+route-map wwl2k deny 30
+ match interface Loopback3
+!
+route-map wwl2n permit 10
+ match interface Loopback54
+ set community 65000
+!
+route-map wwl2n permit 20
+ match interface Loopback4
+ set community 0:0
+!
+route-map wwl2n deny 30
+ match interface Loopback4
+!
+route-map eigrpIIin permit 10
+ match route-type external
+!
+route-map Game-Over permit 10
+ match ip address GENERAL-TO-INTERNET-V2
+ continue
+!
+route-map Game-Over permit 20
+ set interface Null0
+!
+route-map wide_metrics permit 10
+ match ip address prefix-list more-room-for-cap
+!
+route-map WW5QDAWIIIin permit 10
+ match ip address prefix-list CASTLES
+ match community 110
+!
+route-map WW5QDAWIIIin permit 20
+ match ip address prefix-list LEVELS
+ match community 110
+!
+route-map WW5QDAWIIin permit 10
+ match ip address prefix-list CASTLES
+ match community 90
+!
+route-map WW5QDAWIIin permit 20
+ match ip address prefix-list LEVELS
+ match community 90
+!
+route-map WW5QDAWIin permit 10
+ match ip address prefix-list CASTLES
+ match community 120
+!
+route-map WW5QDAWIin permit 20
+ match ip address prefix-list LEVELS
+ match community 120
+!
+route-map WW5QDAWIVin permit 10
+ match ip address prefix-list CASTLES
+!
+route-map WW5QDAWIVin permit 20
+ match ip address prefix-list LEVELS
+!
+route-map eigrpIII deny 10
+ match ip address prefix-list DEFAULT
+!
+route-map eigrpIII permit 20
+ match metric 89
+ match tag 110
+!
+route-map eigrpIIout permit 10
+ match tag 90
+!
+route-map eigrpIIout deny 20
+!
+route-map WW5QDAWIVV permit 10
+ match ip address prefix-list CAPTAIN_WIDE
+!
+route-map WW5QDAWIVVin permit 10
+!
+route-map WW5QDAWIVVin deny 20
+!
+route-map WW5QDAWIVout permit 10
+ match extcommunity Castle4
+!
+route-map WW5QDAWIout permit 10
+ match tag 120
+!
+route-map WW5QDAWIIIout permit 10
+ match ip address prefix-list CAPTAIN
+!
+route-map Cloud-Connected deny 10
+ match interface Loopback5
+!
+route-map Cloud-Connected deny 15
+ match interface Loopback55
+!
+route-map Cloud-Connected permit 20
+ match interface Loopback5
+ set community 426573824
+!
+route-map Cloud-Connected permit 30
+!
+route-map Cloud-Connected deny 40
+!
+route-map Level5-filter
+ match metric 5
+!
+route-tag list CaptainCatalyst seq 5 permit 9.0.0.1 0.0.0.0
+route-tag list Princess seq 5 permit 100.1.1.1 0.0.0.0
+!
+!
+ipv6 access-list NO-IPv6-MGMT-ACCESS
+ deny ipv6 any any
+!
+ipv6 access-list Chamber5_v6
+ permit icmp any any
+ permit 89 any any
+ permit 47 any any
+ permit esp any any
+!
+ipv6 access-list X8QAWWVI
+ permit icmp any any
+ permit 89 any any
+ permit 47 any any
+ permit esp any any
+!
+ipv6 access-list X8QAWWVIout
+ permit icmp any any
+ deny tcp any any eq bgp
+ permit ipv6 any any
+!
+control-plane
+ service-policy input COPP
+!
+line con 0
+ no motd-banner
+ exec-timeout 5 0
+ logging synchronous
+line vty 0
+ no motd-banner
+ exec-timeout 10
+ logging synchronous
+line vty 1
+ no motd-banner
+ logging synchronous
+ length 0
+line vty 2 4
+ no motd-banner
+ logging synchronous
+line vty 5
+ no exec-banner
+ privilege level 15
+ rotary 1
+ motd-banner
+ autocommand  menu Castle1
+ transport input telnet
+!
+event manager applet Castle1-open-gates1
+ event routing network 9.0.0.0/31 type add protocol RIP vrf name Castle1
+ action 01 cli command "enable"
+ action 02 cli command "show ip route vrf Castle1 9.0.0.1"
+ action 03 regexp "Route tag 120" "$_cli_result"
+ action 04 if $_regexp_result eq "1"
+ action 05  cli command "conf t"
+ action 06  cli command "router rip"
+ action 07  cli command " address-family ipv4 vrf Castle1"
+ action 08  cli command "  no distribute-list prefix DENY-ALL out"
+ action 09  cli command "exit"
+ action 10  cli command "ip access-list extended X8QAWWI"
+ action 11  cli command " no 30"
+ action 12  syslog msg "Telnet chamber opened!"
+ action 13 end
+ action 14 cli command "end"
+ action 15 cli command "exit"
+event manager applet Castle1-open-gates2
+ event routing network 9.0.0.0/31 type modify protocol RIP vrf name Castle1
+ action 01 cli command "enable"
+ action 02 cli command "show ip route vrf Castle1 9.0.0.1"
+ action 03 regexp "Route tag 120" "$_cli_result"
+ action 04 if $_regexp_result eq "1"
+ action 05  cli command "conf t"
+ action 06  cli command "router rip"
+ action 07  cli command " address-family ipv4 vrf Castle1"
+ action 08  cli command "  no distribute-list prefix DENY-ALL out"
+ action 09  cli command "exit"
+ action 10  cli command "ip access-list extended X8QAWWI"
+ action 11  cli command " no 30"
+ action 12  syslog msg "Telnet chamber opened!"
+ action 13 end
+ action 14 cli command "end"
+ action 15 cli command "exit"
+event manager applet Castle1-open-gates3
+ event routing network 90.0.0.0/30 type modify protocol RIP vrf name Castle1
+ action 01 cli command "enable"
+ action 02 cli command "show ip route vrf Castle1 90.0.0.1"
+ action 03 regexp "Route tag 120" "$_cli_result"
+ action 04 if $_regexp_result eq "1"
+ action 05  cli command "conf t"
+ action 06  cli command "router rip"
+ action 07  cli command " address-family ipv4 vrf Castle1"
+ action 08  cli command "  no distribute-list prefix DENY-ALL out"
+ action 09  cli command "exit"
+ action 10  cli command "ip access-list extended X8QAWWI"
+ action 11  cli command " no 30"
+ action 12  syslog msg "Telnet chamber opened!"
+ action 13 end
+ action 14 cli command "end"
+ action 15 cli command "exit"
+event manager applet Castle1-close-telnet
+ event routing network 9.0.0.0/31 type remove vrf name Castle1
+ action 01 cli command "enable"
+ action 02 cli command "conf t"
+ action 03 cli command "ip access-list extended X8QAWWI"
+ action 04 cli command " 30 deny tcp host 9.0.0.1 host 100.1.0.20 eq 3001"
+ action 05 syslog msg "Chamber closed."
+ action 06 cli command "end"
+ action 07 cli command "exit"
+event manager applet Castle1-unlock-level2
+ event none
+ action 01 track read 101
+ action 02 if $_track_state eq "down"
+ action 03  cli command "enable"
+ action 04  cli command "conf t"
+ action 05  cli command "menu Castle1 text 2 Unlock level 2 --- Done!"
+ action 06  cli command "interface GigabitEthernet1.101"
+ action 07  cli command " no shut"
+ action 08  cli command "interface GigabitEthernet1.245"
+ action 09  cli command " no ip access-group X8QAWWV out"
+ action 10  cli command " no shutdown"
+ action 13  syslog msg "Level 2 unlocked!"
+ action 14  track set 11 state up
+ action 15  cli command "end"
+ action 16  cli command "exit"
+ action 17 end
+event manager applet Castle1-lock-access-castle1
+ event syslog pattern "neighbor 172.21.0.1 vpn vrf Castle1 Up"
+ trigger delay 30
+ action 01 cli command "enable"
+ action 02 cli command "conf t"
+ action 03 track read 12
+ action 04 if $_track_state eq "down"
+ action 05  cli command "no username Level1" pattern "confirm"
+ action 06  cli command "y"
+ action 08  cli command "line vty 5"
+ action 09  cli command " autocommand menu Castle2"
+ action 10  track set 12 state up
+ action 11 end
+ action 12 wait 15
+ action 13 cli command "ip access-list extended X8QAWWI"
+ action 14 cli command " remark Level 1 completed and closed"
+ action 15 cli command " 25 deny tcp host 9.0.0.1 host 100.1.0.20"
+ action 16 cli command "end"
+ action 17 cli command "exit"
+event manager applet Castle2-open-gates1
+ event routing network 9.0.0.0/31 type add protocol EIGRP vrf name Castle2
+ trigger delay 10
+ action 01 cli command "enable"
+ action 02 cli command "conf t"
+ action 03 cli command "ip access-list extended X8QAWWIIl"
+ action 04 cli command " no deny ip any any"
+ action 05 cli command "ip access-list extended X8QAWWIIl2out"
+ action 06 cli command " no deny ip any any"
+ action 07 cli command "interface GigabitEthernet1.255"
+ action 08 cli command " no shutdown"
+ action 09 cli command "router eigrp OTP"
+ action 10 cli command " address-family ipv4 unicast autonomous-system 2"
+ action 11 cli command "  topology vrf Castle2 tid 88 lisp-instance-id 88"
+ action 12 cli command "   topo-interface Loopback2"
+ action 13 cli command "    no shutdown"
+ action 14 cli command "    shutdown"
+ action 15 syslog msg "Telnet chamber opened!"
+ action 16 cli command "end"
+ action 17 cli command "exit"
+event manager applet Castle2-open-gates2
+ event routing network 9.0.0.0/31 type add protocol EIGRP vrf name Level2
+ trigger delay 10
+ action 01 cli command "enable"
+ action 02 cli command "conf t"
+ action 03 cli command "ip access-list extended X8QAWWIIl"
+ action 04 cli command " no deny ip any any"
+ action 05 cli command "ip access-list extended X8QAWWIIl2out"
+ action 06 cli command " no deny ip any any"
+ action 07 cli command "router eigrp OTP"
+ action 08 cli command " address-family ipv4 unicast autonomous-system 2"
+ action 09 cli command "  topology vrf Castle2 tid 88 lisp-instance-id 88"
+ action 10 cli command "   topo-interface Loopback2"
+ action 11 cli command "    no shutdown"
+ action 12 cli command "    shutdown"
+ action 13 syslog msg "Telnet chamber opened!"
+ action 14 cli command "end"
+ action 15 cli command "exit"
+event manager applet Castle2-close-chamber
+ event routing network 10.0.0.0/31 type remove vrf name Castle2
+ action 01 syslog msg "Now you are doing something wrong!"
+event manager applet Castle2-close-telnet
+ event routing network 9.0.0.0/31 type remove vrf name Castle2
+ action 01 syslog msg "Chamber closed."
+event manager applet Castle2-unlock-level3
+ event none
+ action 01 track read 102
+ action 02 if $_track_state eq "down"
+ action 03  cli command "enable"
+ action 04  cli command "conf t"
+ action 05  cli command "menu Castle2 text 2 Unlock level 3 --- Done!"
+ action 06  cli command "interface GigabitEthernet1.102"
+ action 07  cli command " no shut"
+ action 08  cli command "interface GigabitEthernet1.345"
+ action 09  cli command " no ip access-group X8QAWWV out"
+ action 10  cli command " no shutdown"
+ action 11  syslog msg "Level 3 unlocked!"
+ action 12  track set 21 state up
+ action 13  cli command "end"
+ action 14  cli command "exit"
+ action 15 end
+event manager applet Castle2-lock-access-castle2
+ event syslog pattern "neighbor 172.22.0.1 vpn vrf Castle2 Up"
+ trigger delay 30
+ action 01 cli command "enable"
+ action 02 cli command "conf t"
+ action 03 track read 22
+ action 04 if $_track_state eq "down"
+ action 05  cli command "no username Level2" pattern "confirm"
+ action 06  cli command "y"
+ action 08  cli command "line vty 5"
+ action 09  cli command " autocommand menu Castle3"
+ action 10  track set 22 state up
+ action 11 end
+ action 12 wait 10
+ action 13 cli command "router eigrp OTP"
+ action 14 cli command " address-family ipv4 unicast autonomous-system 2"
+ action 15 cli command "  no neighbor 10.2.55.4 GigabitEthernet1.255 remote 100 lisp-encap 88"
+ action 16 cli command "  no topology vrf Castle2 tid 88 lisp-instance-id 88"
+ action 17 cli command "  shutdown"
+ action 18 cli command "interface GigabitEthernet1.255"
+ action 19 cli command " shutdown"
+ action 20 cli command "end"
+ action 21 cli command "exit"
+event manager applet Castle3_check-ospf-adj1
+ event syslog pattern "Nbr 10.3.45.4 on GigabitEthernet1.345 from LOADING to FULL"
+ trigger delay 16
+ action 01 cli command "enable"
+ action 02 cli command "conf t"
+ action 03 cli command "interface GigabitEthernet1.345"
+ action 04 cli command " ip ospf multi-area 2"
+ action 05 cli command "end"
+ action 06 cli command "exit"
+event manager applet Castle3_check-ospf-adj2
+ event syslog pattern "Nbr 10.3.45.4 on OSPF_MA[0-9] from LOADING to FULL"
+ trigger delay 14
+ action 01 track read 302
+ action 02 if $_track_state eq "down"
+ action 03  cli command "enable"
+ action 04  cli command "show ip ospf 3 neighbor | count 10.3.45.4"
+ action 05  regexp "Number of lines which match regexp = 2" "$_cli_result"
+ action 06  if $_regexp_result eq "1"
+ action 07   cli command "conf t"
+ action 08   cli command "interface GigabitEthernet1.345"
+ action 09   cli command " ip ospf multi-area 3"
+ action 10   track set 302 state up
+ action 11  end
+ action 12  cli command "end"
+ action 13  cli command "exit"
+ action 14 end
+event manager applet Castle3_check-ospf-adj3
+ event syslog pattern "Nbr 10.3.45.4 on OSPF_MA.* from LOADING to FULL"
+ trigger delay 12
+ action 01 track read 303
+ action 02 if $_track_state eq "down"
+ action 03  cli command "enable"
+ action 04  cli command "show ip ospf 3 neighbor | count 10.3.45.4"
+ action 05  regexp "Number of lines which match regexp = 3" "$_cli_result"
+ action 06  if $_regexp_result eq "1"
+ action 07   cli command "conf t"
+ action 08   cli command "interface GigabitEthernet1.345"
+ action 09   cli command " ip ospf multi-area 4"
+ action 10   track set 303 state up
+ action 11  end
+ action 12  cli command "end"
+ action 13  cli command "exit"
+ action 14 end
+event manager applet Castle3_check-ospf-adj4
+ event syslog pattern "Nbr 10.3.45.4 on OSPF_MA.* from LOADING to FULL"
+ trigger delay 10
+ action 01 track read 304
+ action 02 if $_track_state eq "down"
+ action 03  cli command "enable"
+ action 04  cli command "show ip ospf 3 neighbor | count 10.3.45.4"
+ action 05  regexp "Number of lines which match regexp = 4" "$_cli_result"
+ action 06  if $_regexp_result eq "1"
+ action 07   cli command "conf t"
+ action 08   cli command "interface GigabitEthernet1.345"
+ action 09   cli command " ip ospf multi-area 5"
+ action 10   track set 304 state up
+ action 11  end
+ action 12  cli command "end"
+ action 13  cli command "exit"
+ action 14 end
+event manager applet Castle3_check-ospf-adj5
+ event syslog pattern "Nbr 10.5.45.4 on OSPF_MA.* from LOADNG to FULL"
+ trigger delay 8
+ action 01 track read 305
+ action 02 if $_track_state eq "up"
+ action 03  cli command "enable"
+ action 04  cli command "show ip ospf 3 neighbor | count 10.3.45.4"
+ action 05  regexp "Number of lines which match regexp = 5" "$_cli_result"
+ action 06  if $_regexp_result eq "1"
+ action 07   cli command "conf t"
+ action 08   cli command "interface GigabitEthernet1.345"
+ action 09   cli command " ip ospf multi-area 5"
+ action 10   track set 305 state up
+ action 11  end
+ action 12  cli command "end"
+ action 13  cli command "exit"
+ action 14 end
+event manager applet Castle3-open-gates
+ event routing network 9.0.0.0/31 type add protocol OSPF vrf name Castle3
+ action 01 cli command "enable"
+ action 02 cli command "conf t"
+ action 03 cli command "ip access-list extended X8QAWWIII"
+ action 04 cli command " no 30"
+ action 05 syslog msg "Telnet chamber opened!"
+ action 06 cli command "end"
+ action 07 cli command "exit"
+event manager applet Castle3-close-telnet
+ event routing network 9.0.0.0/31 type remove vrf name Castle3
+ action 01 cli command "enable"
+ action 02 cli command "conf t"
+ action 03 cli command "ip access-list extended X8QAWWIII"
+ action 04 cli command " 30 deny tcp host 9.0.0.1 host 100.3.0.20 eq 3001"
+ action 05 syslog msg "Chamber closed."
+ action 06 cli command "end"
+ action 07 cli command "exit"
+event manager applet Castle3-unlock-level4
+ event none
+ action 01 track read 103
+ action 02 if $_track_state eq "down"
+ action 03  cli command "enable"
+ action 04  cli command "conf t"
+ action 05  cli command "menu Castle3 text 2 Unlock level 4 --- Done!"
+ action 06  cli command "interface GigabitEthernet1.103"
+ action 07  cli command " no shut"
+ action 08  cli command "interface GigabitEthernet1.445"
+ action 09  cli command " no ip access-group X8QAWWV out"
+ action 10  cli command " no shutdown"
+ action 11  cli command "vrf definition Level4"
+ action 12  cli command " address-family ipv4"
+ action 13  cli command "  import map wide_metrics"
+ action 14  cli command "  route-target export 400:1337"
+ action 15  cli command "  route-target import 3750:24"
+ action 16  cli command " exit"
+ action 17  cli command "vrf definition Castle4"
+ action 18  cli command " address-family ipv4"
+ action 19  cli command "  import map wide_metrics"
+ action 21  cli command "  route-target export 20000:4000"
+ action 22  cli command "  route-target import 3750:48"
+ action 23  cli command " exit"
+ action 24  syslog msg "Level 4 unlocked!"
+ action 25  track set 31 state up
+ action 26  cli command "end"
+ action 27  cli command "exit"
+ action 28 end
+event manager applet Castle3-lock-access-castle3
+ event syslog pattern "neighbor 172.23.0.1 vpn vrf Castle3 Up"
+ trigger delay 30
+ action 01 cli command "enable"
+ action 02 cli command "conf t"
+ action 03 track read 32
+ action 04 if $_track_state eq "down"
+ action 05  cli command "no username Level3" pattern "confirm"
+ action 06  cli command "y"
+ action 08  cli command "line vty 5"
+ action 09  cli command " autocommand menu Castle4"
+ action 10  track set 32 state up
+ action 11 end
+ action 12 wait 10
+ action 13 cli command "ip access-list extended X8QAWWIII"
+ action 14 cli command " remark Level 3 completed and closed"
+ action 15 cli command " 25 deny tcp host 9.0.0.1 host 100.3.0.20"
+ action 16 cli command "end"
+ action 17 cli command "exit"
+event manager applet Castle4-open-gates1
+ event routing network 9.0.0.0/30 type add protocol BGP vrf name Castle4
+ action 01 cli command "enable"
+ action 02 cli command "conf t"
+ action 03 cli command "router bgp 400"
+ action 04 cli command " address-family ipv4 vrf Castle4"
+ action 05 cli command "  redistribute connected route-map wwl2n"
+ action 06 syslog msg "Telnet chamber opened!"
+ action 07 cli command "end"
+ action 08 cli command "exit"
+event manager applet Castle4-open-gates2
+ event routing network 9.0.0.0/31 type add protocol BGP vrf name Castle4
+ action 01 cli command "enable"
+ action 02 cli command "conf t"
+ action 03 cli command "router bgp 400"
+ action 04 cli command " address-family ipv4 vrf Castle4"
+ action 05 cli command "  redistribute connected route-map wwl2n"
+ action 06 syslog msg "Telnet chamber opened!"
+ action 07 cli command "end"
+ action 08 cli command "exit"
+event manager applet Castle4-open-gates3
+ event routing network 9.0.0.1/32 type add protocol BGP vrf name Castle4
+ action 01 cli command "enable"
+ action 02 cli command "conf t"
+ action 03 cli command "router bgp 400"
+ action 04 cli command " address-family ipv4 vrf Castle4"
+ action 05 cli command "  redistribute connected route-map wwl2n"
+ action 06 syslog msg "Telnet chamber opened!"
+ action 07 cli command "end"
+ action 08 cli command "exit"
+event manager applet Level4-unlock-level5
+ event none
+ action 01 track read 104
+ action 02 if $_track_state eq "down"
+ action 03  cli command "enable"
+ action 04  cli command "conf t"
+ action 06  cli command "interface GigabitEthernet1.104"
+ action 08  syslog msg "Level 5 unlocked!"
+ action 10  cli command "end"
+ action 11  cli command "exit"
+ action 12 end
+event manager applet Castle4-unlock-level5
+ event none
+ action 01 track read 104
+ action 02 if $_track_state eq "down"
+ action 03  cli command "enable"
+ action 04  cli command "conf t"
+ action 05  cli command "menu Castle4 text 2 Unlock level 5 --- Done!"
+ action 06  cli command "interface GigabitEthernet1.104"
+ action 07  cli command " no shutdown"
+ action 08  cli command "interface GigabitEthernet1.545"
+ action 10  cli command " no shutdown"
+ action 11  syslog msg "Level 5 unlocked!"
+ action 12  track set 41 state up
+ action 13  cli command "end"
+ action 14  cli command "exit"
+ action 15 end
+event manager applet Castle4-lock-access-castle4
+ event syslog pattern "neighbor 172.24.0.1 vpn vrf Castle4 Up"
+ trigger delay 30
+ action 01 cli command "enable"
+ action 02 cli command "conf t"
+ action 03 track read 42
+ action 04 if $_track_state eq "down"
+ action 05  cli command "no username Level4" pattern "confirm"
+ action 06  cli command "y"
+ action 08  cli command "line vty 5"
+ action 09  cli command " autocommand menu Castle5"
+ action 10  track set 42 state up
+ action 11 end
+ action 12 wait 10
+ action 13 cli command "ip access-list extended COPP_PERMIT"
+ action 14 cli command " no permit tcp host 9.0.0.1 host 100.4.0.20 eq 3001 ttl lt 240"
+ action 15 cli command "end"
+ action 16 cli command "exit"
+event manager applet Castle5-open-gates1
+ event routing network 9.0.0.0/31 type add protocol BGP vrf name Castle5
+ action 01 cli command "enable"
+ action 02 cli command "show bgp vpnv4 uni vrf Castle5 9.0.0.1 | in etric"
+ action 03 regexp "etric 5," "$_cli_result"
+ action 04 if $_regexp_result eq "1"
+ action 05  cli command "conf t"
+ action 06  cli command "no route-map Cloud-Connected deny 10"
+ action 07  syslog msg "Telnet chamber opened!"
+ action 08 end
+ action 09 cli command "end"
+ action 10 cli command "exit"
+event manager applet Castle5-open-gates2
+ event routing network 9.0.0.0/30 type add protocol BGP vrf name Castle5
+ action 01 cli command "enable"
+ action 02 cli command "show bgp vpnv4 uni vrf Castle5 9.0.0.1 | in etric"
+ action 03 regexp "etric 5," "$_cli_result"
+ action 04 if $_regexp_result eq "1"
+ action 05  cli command "conf t"
+ action 06  cli command "no route-map Cloud-Connected deny 10"
+ action 07  syslog msg "Telnet chamber opened!"
+ action 08 end
+ action 09 cli command "end"
+ action 10 cli command "exit"
+event manager applet Castle5-open-gates3
+ event routing network 9.0.0.1/32 type add protocol BGP vrf name Castle5
+ action 01 cli command "enable"
+ action 02 cli command "show bgp vpnv4 uni vrf Castle5 9.0.0.1 | in etric"
+ action 03 regexp "etric 5," "$_cli_result"
+ action 04 if $_regexp_result eq "1"
+ action 05  cli command "conf t"
+ action 06  cli command "no route-map Cloud-Connected deny 10"
+ action 07  syslog msg "Telnet chamber opened!"
+ action 08 end
+ action 09 cli command "end"
+ action 10 cli command "exit"
+event manager applet Castle5-open-gates4
+ event routing network 90.0.0.0/31 type add protocol BGP vrf name Castle5
+ action 01 cli command "enable"
+ action 02 cli command "show bgp vpnv4 uni vrf Castle5 9.0.0.1 | in etric"
+ action 03 regexp "etric 5," "$_cli_result"
+ action 04 if $_regexp_result eq "1"
+ action 05  cli command "conf t"
+ action 06  cli command "no route-map Cloud-Connected deny 10"
+ action 07  syslog msg "Telnet chamber opened!"
+ action 08 end
+ action 09 cli command "end"
+ action 10 cli command "exit"
+event manager applet Castle5-prefixlist1
+ event routing network 10.0.5.0/24 type add protocol BGP vrf name Castle5
+ action 01 track read 501
+ action 02 if $_track_state eq "down"
+ action 03  cli command "enable"
+ action 04  cli command "conf t"
+ action 05  cli command "ip prefix-list WW5QDAWVV permit 10.10.10.0/24"
+ action 06  cli command "end"
+ action 07  cli command "clear ip bgp 10.5.45.1 vrf Castle5"
+ action 08  cli command "exit"
+ action 09  track set 501 state up
+ action 10 end
+event manager applet Castle5-prefixlist2
+ event routing network 10.10.10.0/24 type add protocol BGP vrf name Castle5
+ action 01 track read 502
+ action 02 if $_track_state eq "down"
+ action 03  cli command "enable"
+ action 04  cli command "conf t"
+ action 05  cli command "ip prefix-list WW5QDAWVV permit 141.37.0.0/16"
+ action 06  cli command "end"
+ action 07  cli command "clear ip bgp 10.5.45.1 vrf Castle5"
+ action 08  cli command "exit"
+ action 09  track set 502 state up
+ action 10 end
+event manager applet Castle5-prefixlist3
+ event routing network 141.37.0.0/16 type add protocol BGP vrf name Castle5
+ action 01 track read 503
+ action 02 if $_track_state eq "down"
+ action 03  cli command "enable"
+ action 04  cli command "conf t"
+ action 05  cli command "ip prefix-list WW5QDAWVV permit 223.0.0.0/30"
+ action 06  cli command "end"
+ action 07  cli command "clear ip bgp 10.5.45.1 vrf Castle5 in prefix-filter"
+ action 08  cli command "exit"
+ action 09  track set 503 state up
+ action 10 end
+event manager applet Castle5-prefixlist4
+ event routing network 100.10.0.0/24 type add protocol BGP vrf name Castle5
+ action 01 track read 504
+ action 02 if $_track_state eq "down"
+ action 03  cli command "enable"
+ action 04  cli command "conf t"
+ action 05  cli command "ip prefix-list WW5QDAWVV permit 100.10.0.0/24"
+ action 06  cli command "end"
+ action 07  cli command "clear ip bgp 10.5.45.1 vrf Castle5 in prefix-filter"
+ action 08  cli command "exit"
+ action 09  track set 504 state up
+ action 10 end
+event manager applet Castle5-prefixlist5
+ event routing network 223.0.0.0/30 type add protocol BGP vrf name Castle5
+ action 01 track read 505
+ action 02 if $_track_state eq "down"
+ action 03  cli command "enable"
+ action 04  cli command "conf t"
+ action 05  cli command "ip prefix-list WW5QDAWVV permit 9.0.0.0/30 le 32"
+ action 06  cli command "end"
+ action 07  cli command "clear ip bgp 10.5.45.1 vrf Castle5 in prefix-filter"
+ action 08  cli command "exit"
+ action 09  track set 505 state up
+ action 10 end
+event manager applet unauthorized_login
+ event syslog pattern "SEC_LOGIN-5-LOGIN_SUCCESS"
+ action 01 regexp "Source: 9.0.0.1" "$_syslog_msg"
+ action 02 if $_regexp_result eq "0"
+ action 03  file open inLOG bootflash:/IOS_Adventures_Logins.txt a
+ action 04  file puts inLOG nonewline "$_syslog_msg"
+ action 05  file close inLOG
+ action 06  track set 52 state up
+ action 07 end
+!
+banner exec ^
+
+
+
+ ########################################################
+ #                                                      #
+ #                   !!! STOP !!!                       #
+ #                                                      #
+ # Why are you here? You are stuck? Please try to       #
+ # avoid going here for answers.                        #
+ # The game is designed to force you to tackle the      #
+ # problems from different angles. It's difficult       #
+ # but not impossible.                                  #
+ #                                                      #
+ # Did you try every trick and method you have in your  #
+ # tool belt? How would you go about troubleshooting    #
+ # in a real world scenario? Did you use all provided   #
+ # information?                                         #
+ #                                                      #
+ ########################################################
+
+
+^
+!
+!
+event manager applet Castle1-talk-to-switch
+ event none
+ action 010 cli command "enable"
+ action 011 cli command "conf t"
+ action 012 cli command "menu Castle1 text 2 Unlock level 2"
+ action 013 cli command "menu Castle1 command 2 event manager run Castle1-unlock-level2"
+ action 014 cli command "menu Castle1 text 3 Search for treasures"
+ action 015 cli command "menu Castle1 command 3 event manager run Castle1-treasures"
+ action 016 cli command "end"
+ action 017 cli command "exit"
+ action 101 puts " "
+ action 102 puts " "
+ action 103 puts " "
+ action 104 puts " "
+ action 105 puts " "
+ action 106 puts " "
+ action 107 puts " "
+ action 108 puts " "
+ action 109 puts " "
+ action 110 puts "           ---------------------------------------------------------  "
+ action 111 comment ---------------------------------------------------------------------
+ action 112 puts "          |               Thank You Captain Catalyst!               | "
+ action 113 comment ---------------------------------------------------------------------
+ action 114 puts "          |          But Our Princess Is in Another Castle          | "
+ action 115 comment ---------------------------------------------------------------------
+ action 116 puts "           -------------  ------------------------------------------  "
+ action 117 puts "                        \/                          "
+ action 118 puts "                        /                           "
+ action 119 puts " "
+ action 120 comment ---------------------------------------------------
+ action 121 comment ---------------------------------------------------
+ action 130 puts "    ______________________________________________  "
+ action 131 comment ---------------------------------------------------
+ action 132 puts "   /                                             /| "
+ action 133 comment ---------------------------------------------------
+ action 134 puts "  +---------------------------------------------+ | "
+ action 135 comment ---------------------------------------------------
+ action 136 puts "  |.:|:.:|:.              @@@@@@   @@@@@@       | | "
+ action 137 comment ---------------------------------------------------
+ action 138 comment ---------------------------------------------------
+ action 139 puts "  |  Cisco                @@@@@@   @@@@@@ [] [] |/  "
+ action 140 comment ---------------------------------------------------
+ action 141 puts "  +---------------------------------------------+   "
+ action 142 comment ---------------------------------------------------
+ action 143 puts " "
+event manager applet Castle2-talk-to-switch
+ event none
+ action 010 cli command "enable"
+ action 011 cli command "conf t"
+ action 012 cli command "menu Castle2 text 2 Unlock level 3"
+ action 013 cli command "menu Castle2 command 2 event manager run Castle2-unlock-level3"
+ action 014 cli command "menu Castle2 text 3 Search for treasures"
+ action 015 cli command "menu Castle2 command 3 event manager run Castle2-treasures"
+ action 016 cli command "end"
+ action 017 cli command "exit"
+ action 101 puts " "
+ action 102 puts " "
+ action 103 puts " "
+ action 104 puts " "
+ action 105 puts " "
+ action 106 puts " "
+ action 107 puts " "
+ action 108 puts " "
+ action 109 puts "           ---------------------------------------------------------  "
+ action 121 comment ---------------------------------------------------------------------
+ action 122 puts "          |               Thank You Captain Catalyst!               | "
+ action 123 comment ---------------------------------------------------------------------
+ action 124 puts "          |          But Our Princess Is in Another Castle          | "
+ action 125 comment ---------------------------------------------------------------------
+ action 126 puts "           -------------  ------------------------------------------  "
+ action 127 comment ---------------------------------------------------------------------
+ action 128 puts "                        \/                          "
+ action 129 puts "                        /                           "
+ action 130 puts " "
+ action 140 comment ---------------------------------------------------
+ action 141 puts "    ______________________________________________  "
+ action 142 comment ---------------------------------------------------
+ action 143 puts "   /                                             /| "
+ action 144 comment ---------------------------------------------------
+ action 145 puts "  +---------------------------------------------+ | "
+ action 146 comment ---------------------------------------------------
+ action 147 puts "  |.:|:.:|:.              @@@@@@   @@@@@@       | | "
+ action 148 comment ---------------------------------------------------
+ action 150 comment ---------------------------------------------------
+ action 151 puts "  |  Cisco                @@@@@@   @@@@@@ [] [] |/  "
+ action 152 comment ---------------------------------------------------
+ action 153 puts "  +---------------------------------------------+   "
+ action 154 comment ---------------------------------------------------
+ action 155 puts " "
+event manager applet Castle3-talk-to-switch
+ event none
+ action 010 cli command "enable"
+ action 011 cli command "conf t"
+ action 012 cli command "menu Castle3 text 2 Unlock level 4"
+ action 013 cli command "menu Castle3 command 2 event manager run Castle3-unlock-level4"
+ action 014 cli command "menu Castle3 text 3 Search the room for treasures"
+ action 015 cli command "menu Castle3 command 3 event manager run Castle3-treasures"
+ action 016 cli command "end"
+ action 017 cli command "exit"
+ action 101 puts " "
+ action 102 puts " "
+ action 103 puts " "
+ action 104 puts " "
+ action 105 puts " "
+ action 106 puts " "
+ action 107 puts " "
+ action 108 puts "           ---------------------------------------------------------  "
+ action 110 comment ---------------------------------------------------------------------
+ action 111 puts "          |               Thank You Captain Catalyst!               | "
+ action 112 comment ---------------------------------------------------------------------
+ action 113 puts "          |          But Our Princess Is in Another Castle          | "
+ action 114 comment ---------------------------------------------------------------------
+ action 115 puts "           -------------  ------------------------------------------  "
+ action 116 comment ---------------------------------------------------------------------
+ action 120 puts "                        \/                          "
+ action 121 puts "                        /                           "
+ action 122 puts " "
+ action 123 comment ---------------------------------------------------
+ action 124 puts "    ______________________________________________  "
+ action 125 comment ---------------------------------------------------
+ action 126 puts "   /                                             /| "
+ action 130 comment ---------------------------------------------------
+ action 131 puts "  +---------------------------------------------+ | "
+ action 132 comment ---------------------------------------------------
+ action 133 puts "  |.:|:.:|:.              @@@@@@   @@@@@@       | | "
+ action 134 comment ---------------------------------------------------
+ action 135 comment ---------------------------------------------------
+ action 136 puts "  |  Cisco                @@@@@@   @@@@@@ [] [] |/  "
+ action 137 comment ---------------------------------------------------
+ action 140 puts "  +---------------------------------------------+   "
+ action 141 comment ---------------------------------------------------
+ action 142 puts " "
+event manager applet Castle4-talk-to-switch
+ event none
+ action 010 cli command "enable"
+ action 011 cli command "conf t"
+ action 012 cli command "menu Castle4 text 2 Unlock level 5"
+ action 013 cli command "menu Castle4 command 2 event manager run Castle4-unlock-level5"
+ action 014 cli command "menu Castle4 text 3 Search the chamber for treasures"
+ action 015 cli command "menu Castle4 command 3 event manager run Castle4-treasures"
+ action 016 cli command "end"
+ action 017 cli command "exit"
+ action 101 puts " "
+ action 102 puts " "
+ action 103 puts " "
+ action 104 puts " "
+ action 105 puts " "
+ action 106 puts " "
+ action 107 comment ---------------------------------------------------------------------
+ action 108 puts "           ---------------------------------------------------------  "
+ action 109 comment ---------------------------------------------------------------------
+ action 110 puts "          |               Thank You Captain Catalyst!               | "
+ action 116 comment ---------------------------------------------------------------------
+ action 117 puts "          |          But Our Princess Is in Another Castle          | "
+ action 118 comment ---------------------------------------------------------------------
+ action 119 puts "           -------------  ------------------------------------------  "
+ action 120 comment ---------------------------------------------------------------------
+ action 121 puts "                        \/                          "
+ action 122 puts "                        /                           "
+ action 123 puts " "
+ action 124 comment ---------------------------------------------------
+ action 130 puts "    ______________________________________________  "
+ action 131 comment ---------------------------------------------------
+ action 132 puts "   /                                             /| "
+ action 133 comment ---------------------------------------------------
+ action 134 puts "  +---------------------------------------------+ | "
+ action 135 comment ---------------------------------------------------
+ action 136 puts "  |.:|:.:|:.              @@@@@@   @@@@@@       | | "
+ action 137 comment ---------------------------------------------------
+ action 138 comment ---------------------------------------------------
+ action 140 puts "  |  Cisco                @@@@@@   @@@@@@ [] [] |/  "
+ action 141 comment ---------------------------------------------------
+ action 142 puts "  +---------------------------------------------+   "
+ action 143 comment ---------------------------------------------------
+ action 144 puts " "
+event manager applet VRF5-empty-castle
+ event none
+ action 101 puts " "
+ action 102 puts " "
+ action 103 puts " "
+ action 104 puts " "
+ action 105 puts " "
+ action 106 puts " "
+ action 124 puts "     +--------------------------------------+--.   "
+ action 130 puts "     |                                      |  |   "
+ action 132 puts "     |                                      |  |   "
+ action 135 puts "     |______________________________________|  |   "
+ action 141 puts "     |                                      |  |   "
+ action 143 puts "     |______________________________________|  |   "
+ action 145 puts "     |                                      |  |   "
+ action 152 puts "     |______________________________________|  |   "
+ action 154 puts "     |                                      |  |   "
+ action 156 puts "     |______________________________________|  |   "
+ action 158 puts "     |                                      |  |   "
+ action 162 puts "     |______________________________________|  |   "
+ action 164 puts "     |                                      |  |   "
+ action 166 puts "     |______________________________________|  |   "
+ action 170 puts "     |                                      |  |   "
+ action 172 puts "     |______________________________________|  |   "
+ action 174 puts "     |                                      |  |   "
+ action 176 puts "     |______________________________________|  |   "
+ action 181 puts "     ||                 |                  ||  |   "
+ action 183 puts "     || [:]    #####    |                  ||  |   "
+ action 186 puts "     ||       #######   |                  ||  |   "
+ action 191 puts "     ||      =========  |      =========   ||  |   "
+ action 194 puts "     ||       #######   |                  ||  |   "
+ action 197 puts "     ||  ()    #####    |                  || /    "
+ action 201 puts "     ||                 |                  ||/     "
+ action 203 puts "     +--------------------------------------+      "
+event manager applet Castle5-rescue-the-princess
+ event none
+ action 010 cli command "enable"
+ action 011 cli command "conf t"
+ action 012 cli command "menu Castle5 text 1 Talk to princess"
+ action 013 cli command "menu Castle5 text 2 Show your level progress checkpoints "
+ action 015 cli command "menu Castle5 command 2 event manager run Castle5-show-result"
+ action 016 cli command "menu Castle5 text 3 Show R5 EEM events "
+ action 017 cli command "menu Castle5 command 3 event manager run Castle5-show-activity"
+ action 018 cli command "end"
+ action 019 cli command "exit"
+ action 080 puts " "
+ action 081 puts " ... "
+ action 082 wait 4
+ action 083 puts " ### King Junos disconnected ### "
+ action 084 wait 2
+ action 101 puts " "
+ action 102 puts " "
+ action 103 puts " "
+ action 104 puts " "
+ action 105 puts " "
+ action 106 puts " "
+ action 107 comment ---------------------------------------------------------------------
+ action 108 puts "              ---------------------------------------------------------  "
+ action 109 comment ---------------------------------------------------------------------
+ action 110 puts "             |              Thank you Captain Catalyst                 | "
+ action 111 comment ---------------------------------------------------------------------
+ action 112 puts "             |                 Your quest is over!                     | "
+ action 113 comment ---------------------------------------------------------------------
+ action 114 puts "              -------------  ------------------------------------------  "
+ action 115 comment ---------------------------------------------------------------------
+ action 120 puts "                           \/                          "
+ action 121 puts "                           /                           "
+ action 122 puts "                                                       "
+ action 123 comment ------------------------------------------------------
+ action 124 puts "     +--------------------------------------+--.       "
+ action 125 comment --------------------------------------------------
+ action 130 puts "     | ######## ######## ####### #######    |  |   "
+ action 131 comment --------------------------------------------------
+ action 132 comment --------------------------------------------------
+ action 133 puts "     | ######## ######## ####### #######    |  |   "
+ action 134 comment --------------------------------------------------
+ action 135 comment --------------------------------------------------
+ action 136 puts "     |______________________________________|  |   "
+ action 140 comment --------------------------------------------------
+ action 141 puts "     |               [_]  [_]  [_]  [_]     |  |   "
+ action 142 comment --------------------------------------------------
+ action 143 puts "     |______________________________________|  |   "
+ action 144 comment --------------------------------------------------
+ action 145 puts "     |               [_]  [_]  [_]  [_]     |  |   "
+ action 150 comment --------------------------------------------------
+ action 151 comment --------------------------------------------------
+ action 152 puts "     |______________________________________|  |   "
+ action 153 comment --------------------------------------------------
+ action 154 puts "     |    @@ @@ @@ @@ @@ @@ @@ @@ @@ @@ @@  |  |   "
+ action 155 comment --------------------------------------------------
+ action 156 puts "     |______________________________________|  |   "
+ action 157 comment --------------------------------------------------
+ action 158 puts "     |    @@ @@ @@ @@ @@ @@ @@ @@ @@ @@ @@  |  |   "
+ action 160 comment --------------------------------------------------
+ action 161 comment --------------------------------------------------
+ action 162 puts "     |______________________________________|  |   "
+ action 163 comment --------------------------------------------------
+ action 164 puts "     |                                      |  |   "
+ action 165 comment --------------------------------------------------
+ action 166 puts "     |______________________________________|  |   "
+ action 167 comment --------------------------------------------------
+ action 168 comment --------------------------------------------------
+ action 169 puts "     |                                      |  |   "
+ action 170 comment --------------------------------------------------
+ action 171 puts "     |______________________________________|  |   "
+ action 172 comment --------------------------------------------------
+ action 173 puts "     |                                      |  |   "
+ action 174 comment --------------------------------------------------
+ action 175 puts "     |______________________________________|  |   "
+ action 176 comment --------------------------------------------------
+ action 177 puts "     |                                      |  |   "
+ action 178 comment --------------------------------------------------
+ action 179 puts "     |______________________________________|  |   "
+ action 180 comment --------------------------------------------------
+ action 181 puts "     ||                 |                  ||  |   "
+ action 182 comment --------------------------------------------------
+ action 183 puts "     || [:]    #####    | [:]    #####     ||  |   "
+ action 184 comment --------------------------------------------------
+ action 185 comment --------------------------------------------------
+ action 186 puts "     ||       #######   |       #######    ||  |   "
+ action 187 comment --------------------------------------------------
+ action 190 comment --------------------------------------------------
+ action 191 puts "     ||      =========  |      =========   ||  |   "
+ action 192 comment --------------------------------------------------
+ action 193 comment --------------------------------------------------
+ action 194 puts "     ||       #######   |       #######    ||  |   "
+ action 195 comment --------------------------------------------------
+ action 196 comment --------------------------------------------------
+ action 197 puts "     ||  ()    #####    |  ()    #####     || /    "
+ action 200 comment --------------------------------------------------
+ action 201 puts "     ||                 |                  ||/     "
+ action 202 comment --------------------------------------------------
+ action 203 puts "     +--------------------------------------+      "
+ action 204 comment --------------------------------------------------
+ action 251 track set 51 state up
+event manager applet Castle1-treasures
+ event none
+ action 101 puts " "
+ action 102 puts " Searching ... "
+ action 103 puts " "
+ action 104 wait 5
+ action 105 puts " "
+ action 106 puts " "
+ action 107 puts " "
+ action 108 puts " You search the place and the only thing you can find is a broken txt file.  "
+ action 109 puts " "
+ action 110 puts "     +---------------------------+  "
+ action 120 comment -----------------------------------
+ action 121 puts "     |  SPI 545                  |  "
+ action 122 comment -----------------------------------
+ action 123 puts "     |                           |  "
+ action 124 comment -----------------------------------
+ action 125 puts "     |  AES256  41ae84877dd3ce34 |  "
+ action 126 comment -----------------------------------
+ action 127 puts "     |  6a7d97fc7f493c8e9dcacfa6 |  "
+ action 128 comment -----------------------------------
+ action 129 puts "     |  7ce6974ace56baecee9a8411 |  "
+ action 140 comment -----------------------------------
+ action 141 puts "     |                           |  "
+ action 142 comment -----------------------------------
+ action 143 puts "     |  SHA1  95fbdaa0f180b28b7  |  "
+ action 144 comment -----------------------------------
+ action 145 puts "     |  eed1d5635015b6ddda10355  |  "
+ action 146 comment -----------------------------------
+ action 147 puts "     |                           |  "
+ action 148 comment -----------------------------------
+ action 149 puts "     |                     /\/\/\/  "
+ action 150 comment -----------------------------------
+ action 151 puts "     |/\/\/\/\/\/\/\/\/\/\/         "
+ action 152 puts " "
+ action 154 puts " "
+ action 155 puts " It looks like the typewriting of the princess. "
+ action 156 puts " "
+event manager applet Castle4-treasures
+ event none
+ action 101 puts " "
+ action 102 puts " Searching ... "
+ action 103 puts " "
+ action 104 wait 6
+ action 105 puts " "
+ action 106 puts " "
+ action 107 puts " "
+ action 108 puts " The castle is empty. "
+ action 109 puts " "
+ action 110 puts " "
+ action 111 puts " "
+ action 112 puts " "
+event manager applet Castle4-404
+ event none
+ action 01 track read 404
+ action 02 if $_track_state eq "down"
+ action 03  cli command "enable"
+ action 04  cli command "conf t"
+ action 05  cli command "event manager applet Castle4-treasures"
+ action 06  cli command "action 108 puts   The castle is still empty. "
+ action 07  cli command "end"
+ action 08  cli command "exit"
+ action 09  track set 404 state up
+ action 10 end
+event manager applet Castle2-treasures
+ event none
+ action 101 puts " "
+ action 102 puts " Searching ... "
+ action 103 puts " "
+ action 104 wait 6
+ action 105 puts " "
+ action 106 puts " "
+ action 107 puts " "
+ action 108 puts " You find no treasures but there is some writing on the wall. It's a map!"
+ action 109 puts " "
+ action 110 puts " "
+ action 120 comment ------------------------------------------------------------------
+ action 121 puts "    _____________________________________________________________  "
+ action 122 comment ------------------------------------------------------------------
+ action 123 puts "   /,-----------------------------------------------------------.\ "
+ action 124 comment ------------------------------------------------------------------
+ action 125 puts "   ||                                                           || "
+ action 130 comment ------------------------------------------------------------------
+ action 131 puts "   ||  route-map wide_metrics                                   || "
+ action 132 comment ------------------------------------------------------------------
+ action 133 puts "   ||   match ip address prefix-list more-room-for-cap          || "
+ action 134 comment ------------------------------------------------------------------
+ action 135 puts "   ||                                                           || "
+ action 136 comment ------------------------------------------------------------------
+ action 137 puts "   ||  ip prefix-list more-room-for-cap permit 9.0.0.0/30 le 32 || "
+ action 140 comment ------------------------------------------------------------------
+ action 141 puts "   ||                                                           || "
+ action 142 comment ------------------------------------------------------------------
+ action 143 puts "   ||  address-family ipv4                                      || "
+ action 144 comment ------------------------------------------------------------------
+ action 145 puts "   ||   route-target import 3750:48                             || "
+ action 146 comment ------------------------------------------------------------------
+ action 147 puts "   ||   import map wide_metrics                                 || "
+ action 148 comment ------------------------------------------------------------------
+ action 150 puts "   ||                                                           || "
+ action 151 comment ------------------------------------------------------------------
+ action 152 puts "   \\___________________________________________________________// "
+ action 153 comment ------------------------------------------------------------------
+ action 154 puts "    \-----------------------------------------------------------/  "
+ action 155 puts " "
+ action 156 puts " "
+event manager applet Castle3-treasures
+ event none
+ action 101 puts " "
+ action 102 puts " Searching ... "
+ action 103 puts " "
+ action 104 wait 5
+ action 105 puts " "
+ action 106 puts " "
+ action 107 puts " "
+ action 108 puts " "
+ action 109 comment ---------------------------------------
+ action 110 puts "              You find a little switch. "
+ action 111 comment ---------------------------------------
+ action 112 puts " "
+ action 113 comment ---------------------------------------
+ action 114 puts "                   ________________     "
+ action 115 comment ---------------------------------------
+ action 116 puts "                  /               /|    "
+ action 120 comment ---------------------------------------
+ action 121 puts "                 +---------------+ |    "
+ action 122 comment ---------------------------------------
+ action 123 puts "                 |::::   ########|/     "
+ action 124 comment ---------------------------------------
+ action 125 puts "                 +---------------+      "
+ action 126 comment ---------------------------------------
+ action 127 puts " "
+ action 128 puts " "
+ action 130 wait 4
+ action 131 puts "              You boot and log onto the switch.  "
+ action 132 comment ------------------------------------------------
+ action 133 puts "              A message is sent to your session. "
+ action 134 puts " "
+ action 143 wait 5
+ action 144 puts " "
+ action 145 puts " "
+ action 146 comment ------------------------------------------------------------------------------------
+ action 160 puts "       ----------------------------------------------------------------------------  "
+ action 161 comment ------------------------------------------------------------------------------------
+ action 162 puts "      | Captain Catalyst. Years ago, you served my father in the DDoS Wars.        | "
+ action 163 comment ------------------------------------------------------------------------------------
+ action 164 puts "      | Now he begs you to help him in his struggle against the Junipers.          | "
+ action 165 comment ------------------------------------------------------------------------------------
+ action 166 puts "      | I regret that I am unable to present my father's request to you in         | "
+ action 167 comment ------------------------------------------------------------------------------------
+ action 168 puts "      | person, but my SUP has fallen under attack and I'm afraid my mission       | "
+ action 170 comment ------------------------------------------------------------------------------------
+ action 171 puts "      | to bring IOS Kingdom back has failed. I have placed information vital      | "
+ action 172 comment ------------------------------------------------------------------------------------
+ action 173 puts "      | to the survival of the kingdom into the memory systems of this SG300 unit. | "
+ action 174 comment ------------------------------------------------------------------------------------
+ action 175 puts "      | This is our most desperate hour. Help me, Captain Catalyst.                | "
+ action 176 comment ------------------------------------------------------------------------------------
+ action 177 puts "      | You're my only hope!                                                       | "
+ action 178 comment ------------------------------------------------------------------------------------
+ action 180 puts "       ----------------------------------------------------------------------------  "
+ action 181 comment ------------------------------------------------------------------------------------
+ action 182 puts " "
+ action 183 puts " "
+ action 184 puts " "
+ action 186 puts "      The memory of the switch can be accessed at:"
+ action 187 puts "      https://hackernet.se/images/5/5e/Cisco_SG300.zip"
+ action 188 puts " "
+event manager applet Castle5-treasures
+ event none
+ action 101 puts " "
+ action 102 puts " Searching ... "
+ action 103 wait 6
+ action 104 puts " "
+ action 105 puts " "
+event manager applet Castle5-show-result
+ event none
+ action 01 file open LOG bootflash:/IOS_Adventures_Progress.txt r
+ action 02 file read LOG result
+ action 03 puts "$result"
+ action 04 file close LOG
+ action 05 track read 52
+ action 06 if $_track_state eq "up"
+ action 07  file open inLOG bootflash:/IOS_Adventures_Logins.txt r
+ action 08  file read inLOG result
+ action 09  puts "\n===== Unauthorized Logins ===== "
+ action 10  puts "$result"
+ action 11  file close inLOG
+ action 12 end
+event manager applet Castle5-show-activity
+ event none
+ action 01 cli command "enable"
+ action 02 cli command "show event manager history events"
+ action 03 puts "$_cli_result"
+ action 04 cli command "exit"
+event manager applet Game_Progress1
+ event track 11 state up
+ action 01 file open LOG bootflash:/IOS_Adventures_Progress.txt a
+ action 02 file puts LOG nonewline "Level 1 completed at:"
+ action 03 cli command "enable"
+ action 04 cli command "show clock"
+ action 05 file puts LOG "$_cli_result"
+ action 06 file puts LOG "=================================\n"
+ action 07 file close LOG
+ action 08 cli command "exit"
+event manager applet Game_Progress2
+ event track 21 state up
+ action 01 file open LOG bootflash:/IOS_Adventures_Progress.txt a
+ action 02 file puts LOG nonewline "Level 2 completed at:"
+ action 03 cli command "enable"
+ action 04 cli command "show clock"
+ action 05 file puts LOG "$_cli_result"
+ action 06 file puts LOG "=================================\n"
+ action 07 file close LOG
+ action 08 cli command "exit"
+event manager applet Game_Progress3
+ event track 31 state up
+ action 01 file open LOG bootflash:/IOS_Adventures_Progress.txt a
+ action 02 file puts LOG nonewline "Level 3 completed at:"
+ action 03 cli command "enable"
+ action 04 cli command "show clock"
+ action 05 file puts LOG "$_cli_result"
+ action 06 file puts LOG "=================================\n"
+ action 07 file close LOG
+ action 08 cli command "exit"
+event manager applet Game_Progress4
+ event track 41 state up
+ action 01 file open LOG bootflash:/IOS_Adventures_Progress.txt a
+ action 02 file puts LOG nonewline "Level 4 completed at:"
+ action 03 cli command "enable"
+ action 04 cli command "show clock"
+ action 05 file puts LOG "$_cli_result"
+ action 06 file puts LOG "=================================\n"
+ action 07 file close LOG
+ action 08 cli command "exit"
+event manager applet Game_Progress5
+ event track 51 state up
+ action 01 file open LOG bootflash:/IOS_Adventures_Progress.txt a
+ action 02 file puts LOG nonewline "Level 5 completed at:"
+ action 03 cli command "enable"
+ action 04 cli command "show clock"
+ action 05 file puts LOG "$_cli_result"
+ action 06 file puts LOG "=================================\n"
+ action 07 file close LOG
+ action 10 cli command "conf t"
+ action 11 cli command "event manager applet Castle5-rescue-the-princess"
+ action 12 cli command "no action 080 "
+ action 13 cli command "no action 081 "
+ action 14 cli command "no action 082 "
+ action 15 cli command "no action 083 "
+ action 16 cli command "no action 084 "
+ action 17 cli command "end"
+ action 18 cli command "exit"
+event manager applet starter-pistol
+ event cli pattern "The game begins" sync no skip no
+ action 01 track read 100
+ action 02 if $_track_state eq "down"
+ action 03  file open LOG bootflash:/IOS_Adventures_Progress.txt w
+ action 04  file puts LOG "---"
+ action 05  file puts LOG nonewline "Starting new game at:"
+ action 06  cli command "enable"
+ action 07  cli command "show clock"
+ action 08  file puts LOG "$_cli_result \n"
+ action 09  file puts LOG "=================================\n"
+ action 10  file close LOG
+ action 11  track set 100 state up
+ action 12  cli command "exit"
+ action 13 end
+!
+!
+event manager history size events 50
+event manager history size traps 50
+no username cisco
+
+!
+interface Loopback100
+ description The game begins!
+ no ip address
+!
+archive
+ log config
+  logging enable
+  logging size 500
+!
+!
+end
