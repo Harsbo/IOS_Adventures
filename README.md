@@ -1,18 +1,12 @@
 # IOS Adventures
-One day, the IOS Kingdom was invaded by the Junipers, a tribe of network devices capable of using powerful dark magic. Their magic was used to transform all the IOS routers into simple hubs and media converters, thus spelling the kingdom's downfall. Only the daughter of the IOS King, Princess Cattools, can undo the spell and restore her routers back to glory, but she is being held captive by King Junos himself. Captain Catalyst hears of the princess's plight, and sets out on a quest to topple the Juniper Tribe and save the once-restful kingdom.
+One day, the IOS Kingdom was invaded by the Junipers, a tribe of network devices capable of using powerful dark magic. Their magic was used to transform all the IOS routers into simple hubs and media converters creating an endless layer 2 loop, thus spelling the kingdom's downfall. Only the daughter of the IOS King, Princess Cattools, can undo the spell and restore her routers back to glory, but she is being held captive by King Junos himself. Our hero Captain Catalyst hears of the princess's plight, and sets out on a quest to topple the Juniper Tribe and save the once-restful kingdom.
 
 ## Preparations
-You need six CSR 1000v and one switch connected according to the topology. The switch needs to forward 802.1q tagged frames for all vlans on all interfaces, other than that it is not involved in the gameplay. 
+You need six CSR 1000v and one switch connected according to the topology. The game was developed and tested on IOS XE Software Version 03.17.00.S, IOS Software Version 15.6(1)S, Embedded Event Manager Version 4.00. Using other versions may not work as intended and can therefore possibly ruin the game experience. The switch needs to forward 802.1q tagged frames for vlan 1-1000 on all interfaces (switchport mode trunk), other than that it is not involved in the gameplay. 
 
 ![](Network-Topology.PNG)
 
-How you do management of the routers (console/SSH) is up to you but you need to deploy the initial configurations onto them. You should probably not use copy and paste to do this, especially not for R5 because of the large number of configuration lines. 
-
-Example, using LAN connected interface Gi2 in Mgmt vrf:
-```
-R5(config)#ip http client source-interface GigabitEthernet2
-R5#copy http://<IP-file-server>/initial-configs/R5.txt running-config
-```
+How you do management of the routers (console/vty) is up to you but you need to deploy the [initial configurations](initial-configs/) onto them. You can use copy and paste if you want but note that the initial configuration for R5 contains a large number of configuration lines. 
 
 ## Gameplay
 You play the role of Captain Catalyst (R6) and you control R1 - R4. You start at the bottom (see below) and need to configure your way through all of the levels. The R5 router is used to serve as the castles and each castle has a virtual telnet chamber at 100.X.0.20/32 port 3001 where X is the level number. A level is completed when Captain Catalyst has entered the telnet chamber and searched for the princess. You need to configure routing on each level according to the level requirements and then give the castles the prefix for Captain Catalyst (9.0.0.0/31) also according to the level requirements. This is the only way to make the castle give back the chamber prefixes and thereby achieving connectivity to the chamber. Each chamber is protected by a username and a password. The username is LevelX (X is the level number) and the password will be attached to the chamber prefix that you get from the castle. No password should be entered in dotted-decimal format.
@@ -104,6 +98,7 @@ R6#telnet castle4
  - The castle is using network type point-to-point with default OSPF timers.
  - The chamber itself cannot be advertised with OSPF, only BGP. However the main gate does not speak BGP. The princess knows about this and have made some arrangements to the castle from the TCAM cell where she is locked. The details about this is not fully known to anyone. 
  - The castle can only run BGP in the subnet 10.5.45.0/24.
+ - The castle only accept BGP routes with a metric of 5.
  - You are allowed to create as many tunnel interfaces as needed on the level routers.
  - The castle filters out the hero prefix by default. Give the castle what it asks for to unlock more prefixes. Use only built-in BGP features and use loopback 536 on the level routers to populate the BGP table as needed.
 
@@ -113,6 +108,4 @@ R6#telnet castle5
 ```
 
 ## Final words
-This was developed and tested on IOS XE Software Version 03.17.00.S, IOS Software Version 15.6(1)S, Embedded Event Manager Version 4.00. Using other versions may not work as intended and can therefore possibly ruin the game experience. Testing of other setups and feedback of the game is much appreciated.
-
-If you're having trouble getting your prefixes to or through the castles make sure that you follow the level requirements completely but also think about any technical limitations that you can hit with this kind of setup. With that said good luck, it's not an easy game!
+If you're having trouble getting your prefixes to or through the castles make sure that you follow the level requirements completely but also think about any technical limitations associated with this kind of setup. With that said good luck, it's not an easy game!
