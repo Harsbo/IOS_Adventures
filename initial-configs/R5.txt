@@ -332,6 +332,8 @@ track 103 interface GigabitEthernet1.103 line-protocol
 !
 track 104 interface GigabitEthernet1.104 line-protocol
 !
+track 200 stub-object
+!
 track 302 stub-object
 !
 track 303 stub-object
@@ -1760,41 +1762,49 @@ event manager applet Castle1-lock-access-castle1
 event manager applet Castle2-open-gates1
  event routing network 9.0.0.0/31 type add protocol EIGRP vrf name Castle2
  trigger delay 10
- action 01 cli command "enable"
- action 02 cli command "conf t"
- action 03 cli command "ip access-list extended X8QAWWIIl"
- action 04 cli command " no deny ip any any"
- action 05 cli command "ip access-list extended X8QAWWIIl2out"
- action 06 cli command " no deny ip any any"
- action 07 cli command "interface GigabitEthernet1.255"
- action 08 cli command " no shutdown"
- action 09 cli command "router eigrp OTP"
- action 10 cli command " address-family ipv4 unicast autonomous-system 2"
- action 11 cli command "  topology vrf Castle2 tid 88 lisp-instance-id 88"
- action 12 cli command "   topo-interface Loopback2"
- action 13 cli command "    no shutdown"
- action 14 cli command "    shutdown"
- action 15 syslog msg "Telnet chamber opened!"
- action 16 cli command "end"
- action 17 cli command "exit"
+ action 01 track read 200
+ action 02 if $_track_state eq "down"
+ action 03  cli command "enable"
+ action 04  cli command "conf t"
+ action 05  cli command "ip access-list extended X8QAWWIIl"
+ action 06  cli command " no deny ip any any"
+ action 07  cli command "ip access-list extended X8QAWWIIl2out"
+ action 08  cli command " no deny ip any any"
+ action 09  cli command "interface GigabitEthernet1.255"
+ action 10  cli command " no shutdown"
+ action 11  cli command "router eigrp OTP"
+ action 12  cli command " address-family ipv4 unicast autonomous-system 2"
+ action 13  cli command "  topology vrf Castle2 tid 88 lisp-instance-id 88"
+ action 14  cli command "   topo-interface Loopback2"
+ action 15  cli command "    no shutdown"
+ action 16  cli command "    shutdown"
+ action 17  track set 200 state up
+ action 18  syslog msg "Telnet chamber opened!"
+ action 19  cli command "end"
+ action 20  cli command "exit"
+ action 21 end
 event manager applet Castle2-open-gates2
  event routing network 9.0.0.0/31 type add protocol EIGRP vrf name Level2
  trigger delay 10
- action 01 cli command "enable"
- action 02 cli command "conf t"
- action 03 cli command "ip access-list extended X8QAWWIIl"
- action 04 cli command " no deny ip any any"
- action 05 cli command "ip access-list extended X8QAWWIIl2out"
- action 06 cli command " no deny ip any any"
- action 07 cli command "router eigrp OTP"
- action 08 cli command " address-family ipv4 unicast autonomous-system 2"
- action 09 cli command "  topology vrf Castle2 tid 88 lisp-instance-id 88"
- action 10 cli command "   topo-interface Loopback2"
- action 11 cli command "    no shutdown"
- action 12 cli command "    shutdown"
- action 13 syslog msg "Telnet chamber opened!"
- action 14 cli command "end"
- action 15 cli command "exit"
+ action 01 track read 200
+ action 02 if $_track_state eq "down"
+ action 03  cli command "enable"
+ action 04  cli command "conf t"
+ action 05  cli command "ip access-list extended X8QAWWIIl"
+ action 06  cli command " no deny ip any any"
+ action 07  cli command "ip access-list extended X8QAWWIIl2out"
+ action 08  cli command " no deny ip any any"
+ action 09  cli command "router eigrp OTP"
+ action 10  cli command " address-family ipv4 unicast autonomous-system 2"
+ action 11  cli command "  topology vrf Castle2 tid 88 lisp-instance-id 88"
+ action 12  cli command "   topo-interface Loopback2"
+ action 13  cli command "    no shutdown"
+ action 14  cli command "    shutdown"
+ action 15  track set 200 state up
+ action 16  syslog msg "Telnet chamber opened!"
+ action 17  cli command "end"
+ action 18  cli command "exit"
+ action 19 end
 event manager applet Castle2-close-chamber
  event routing network 10.0.0.0/31 type remove vrf name Castle2
  action 01 syslog msg "Now you are doing something wrong!"
@@ -1819,7 +1829,7 @@ event manager applet Castle2-unlock-level3
  action 14  cli command "exit"
  action 15 end
 event manager applet Castle2-lock-access-castle2
- event syslog pattern "neighbor 172.22.0.1 vpn vrf Castle2 Up"
+ event syslog pattern "neighbor 172.22.0.1 vrf Castle2 Up"
  trigger delay 30
  action 01 cli command "enable"
  action 02 cli command "conf t"
@@ -1841,6 +1851,31 @@ event manager applet Castle2-lock-access-castle2
  action 19 cli command " shutdown"
  action 20 cli command "end"
  action 21 cli command "exit"
+event manager applet Castle2-lock-access2-castle2
+ event syslog pattern "neighbor 172.22.0.1 vpn vrf Castle2 Up"
+ trigger delay 30
+ action 01 cli command "enable"
+ action 02 cli command "conf t"
+ action 03 track read 22
+ action 04 if $_track_state eq "down"
+ action 05  cli command "no username Level2" pattern "confirm"
+ action 06  cli command "y"
+ action 08  cli command "line vty 5"
+ action 09  cli command " autocommand menu Castle3"
+ action 10  track set 22 state up
+ action 12  wait 5
+ action 13  cli command "router eigrp OTP"
+ action 14  cli command " address-family ipv4 unicast autonomous-system 2"
+ action 15  cli command "  no neighbor 10.2.55.4 GigabitEthernet1.255 remote 100 lisp-encap 88"
+ action 16  cli command "  no topology vrf Castle2 tid 88 lisp-instance-id 88"
+ action 17  cli command "  shutdown"
+ action 18  cli command "interface GigabitEthernet1.255"
+ action 19  cli command " shutdown"
+ action 20  cli command " exit"
+ action 21  cli command "no router eigrp OTP"
+ action 22 end
+ action 23 cli command "end"
+ action 24 cli command "exit"
 event manager applet Castle3_check-ospf-adj1
  event syslog pattern "Nbr 10.3.45.4 on GigabitEthernet1.345 from LOADING to FULL"
  trigger delay 16
